@@ -7,13 +7,7 @@ correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
 See TODO.md for issues that I'm currently working on.
 
-Stack that is being used:
-Docker
-Fig
-Nginx
-Django
-uWSGI
-Postgresql
+Stack that is being used: Docker, Fig, Nginx, Django, uWSGI, Postgresql
 
 ## Folder structure
 
@@ -60,20 +54,25 @@ DATABASES = {
 ## Fire it up
 Start the container by issuing one of the following commands:
 > $ sudo fig up             # run in foreground
+
 > $ sudo fig up -d          # run in background
 
 ## Other commands
 Build images
 > $ sudo fig build
+
 > $ sudo fig build --no-cache       # build without cache
 
 See processes
 > $ sudo fig ps             # fig processes
+
 > $ sudo docker ps -a       # docker processes (sometimes needed)
 
 Run commands in container
 > $ sudo fig run <service_name> /bin/bash
+
 > $ sudo fig run <service_name> python manage.py shell
+
 > $ sudo fig run <service_name> env                         # env vars
 
 Name of service is the name you gave it in the fig.yml
@@ -88,4 +87,5 @@ FATA[0000] Get http:///var/run/docker.sock/v1.16/containers/json: dial unix /var
 
 SOLUTION: Add yourself (user) to the docker group, remember to re-log after!
 > $ sudo usermod -a -G docker <your_username>
+
 > $ sudo service docker restart
