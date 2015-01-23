@@ -1,0 +1,36 @@
+gzip_vary on; # cf http://blog.maxcdn.com/accept-encoding-its-vary-important/
+gzip_proxied any;
+gzip_types *;
+
+# Rewrite all HTTP to HTTPS
+server {
+    listen 80 default_server;
+    server_name {{ NG_SERVER_NAME }};
+
+    return 301 https://$http_host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    server_name {{ NG_SERVER_NAME }};
+
+    # see http://nginx.org/en/docs/http/configuring_https_servers.html
+    ssl_certificate /etc/ssl/certs/{{ NG_CRT_NAME if NG_CRT_NAME else 'localhost.crt' }};
+    ssl_certificate_key /etc/ssl/private/{{ NG_KEY_NAME if NG_KEY_NAME else 'localhost.key' }};
+    ssl_prefer_server_ciphers on;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # ie defaults minus SSLv3
+
+    access_log /var/log/nginx/{{ NG_SERVER_NAME }}.default.log;
+
+    location /cdn {
+        alias /srv/static-files;
+    }
+
+    location / {
+        include uwsgi_params;
+        uwsgi_param HTTP_X_FORWARDED_PROTOCOL $scheme; # see django settings
+        uwsgi_pass unix:///run/django.socket;
+    }
+}
+
+server_tokens off;
