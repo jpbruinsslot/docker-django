@@ -5,6 +5,11 @@ FROM phusion/baseimage:0.9.16
 
 
 #####
+# Use baseimage-docker's init system.
+#####
+CMD ["/sbin/my_init"]
+
+#####
 # Add code to image
 #####
 ADD ./code /srv/django
