@@ -23,7 +23,7 @@ app:
         - DB_USER=postgres
         - DB_PASS=password
         - DB_PORT=5432
-        - DJ_PROJECT_NAME=starter
-        - NG_SERVER_NAME=starter
+        - DJ_PROJECT_NAME=
+        - NG_SERVER_NAME=
         - NG_CRT_NAME=
         - NG_KEY_NAME=
