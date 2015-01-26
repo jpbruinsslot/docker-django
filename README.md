@@ -5,7 +5,7 @@ A project to get you started with Docker and Django. This is mainly made to
 serve as an example for you to hack on. I don't claim that this is the
 correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
-See TODO.md for issues that I'm currently working on.
+See `TODO.md` for issues that I'm currently working on.
 
 Stack that is being used: Docker, Fig, Nginx, Django, uWSGI, Postgresql
 
@@ -25,27 +25,28 @@ $ tree -L 1 --dirsfirst
 ```
 
 ## Setting up
-Install [docker](docker.io) for ubuntu:
+Install [docker](https://docker.io) for ubuntu:
 
 ```bash
 $ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
-Install [fig](fig.sh):
+Install [fig](http://fig.sh):
 
 ```bash
 $ sudo pip install fig
 ```
 
-Create django project in the code folder or copy a project to the code folder:
+Create django project in the `code` folder or copy a project to the `code`
+folder:
 
 ```bash
 $ django-admin.py startproject <name_project>
 ```
 
-Edit fig.yml file and add the name of your project at DJ_PROJECT_NAME
+Edit `fig.yml` file and add the name of your project at `DJ_PROJECT_NAME`
 
-Edit the settings.py file with the correct database credentials:
+Edit the `settings.py` file with the correct database credentials:
 
 ```
 DATABASES = {
