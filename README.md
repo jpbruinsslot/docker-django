@@ -44,7 +44,7 @@ folder:
 $ django-admin.py startproject <name_project>
 ```
 
-Edit `fig.yml` file and add the name of your project at `DJ_PROJECT_NAME`
+Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 
 Edit the `settings.py` file with the correct database credentials:
 
@@ -52,11 +52,11 @@ Edit the `settings.py` file with the correct database credentials:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 ```

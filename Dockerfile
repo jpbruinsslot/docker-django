@@ -9,6 +9,7 @@ FROM phusion/baseimage:0.9.16
 #####
 CMD ["/sbin/my_init"]
 
+
 #####
 # Add code to image
 #####

@@ -18,12 +18,12 @@ app:
     links:
         - db
     environment:
-        - DB_HOST=db
-        - DB_NAME=postgres
-        - DB_USER=postgres
-        - DB_PASS=password
-        - DB_PORT=5432
-        - DJ_PROJECT_NAME=
-        - NG_SERVER_NAME=
-        - NG_CRT_NAME=
-        - NG_KEY_NAME=
+        - POSTGRES_HOST=db
+        - POSTGRES_NAME=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=mysecretpassword
+        - POSTGRES_PORT=5432
+        - DJANGO_PROJECT_NAME=starter
+        - NGINX_SERVER_NAME=localhost
+        - NGINX_CRT_NAME
+        - NGINX_KEY_NAME
