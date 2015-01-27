@@ -1,5 +1,5 @@
-Docker Django Starter
----------------------
+Docker Django
+-------------
 
 A project to get you started with Docker and Django. This is mainly made to
 serve as an example for you to hack on. I don't claim that this is the
