@@ -1,4 +1,6 @@
 #! /bin/bash
+set -e
+set -x
 
 #####
 # nginx setup with provided template
@@ -10,8 +12,3 @@ j2 /srv/config/nginx/nginx.j2 > /etc/nginx/sites-enabled/default
 #####
 python /srv/django/${DJANGO_PROJECT_NAME}/manage.py syncdb --noinput
 # python /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
-
-#####
-# Let's go!
-#####
-supervisord -n

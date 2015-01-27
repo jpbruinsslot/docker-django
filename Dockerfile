@@ -23,7 +23,6 @@ RUN apt-get -y update && \
     apt-get install -y \
     build-essential \
     libpq-dev \
-    postgresql \
     git-core \
     curl \
     tmux \
@@ -33,8 +32,7 @@ RUN apt-get -y update && \
     python \
     python-dev \
     python-setuptools \
-    nginx \
-    supervisor
+    nginx
 
 
 #####
@@ -73,25 +71,32 @@ RUN chown -R django:django /srv/django
 
 
 #####
-# Setup supervisor
-#####
-ADD ./config/app/supervisor-app.conf /etc/supervisor/conf.d/supervisor-app.conf
-
-
-#####
 # Add uWSGI config
 #####
 ADD ./config/app/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 
 #####
+# Phusion: add additional scripts that need to run
+#####
+RUN mkdir -p /etc/my_init.d
+ADD ./config/app/setup.sh /etc/my_init.d/setup.sh
+
+
+#####
+# Phusion: add daemons
+#####
+
+# Add uwsgi daemon
+RUN mkdir /etc/service/uwsgi
+ADD ./config/app/uwsgi.sh /etc/service/uwsgi/run
+
+# Add nginx daemon
+RUN mkdir /etc/service/nginx
+ADD ./config/nginx/nginx.sh /etc/service/nginx/run
+
+
+#####
 # Phusion: Clean up APT when done.
 #####
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
-#####
-# Add entrypoint script and go!
-#####
-ADD ./config/app/run.sh /run.sh
-CMD ["/run.sh"]
