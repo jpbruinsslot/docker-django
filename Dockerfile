@@ -58,7 +58,7 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Add the nginx configuration file to the container
 RUN rm /etc/nginx/sites-enabled/default
-ADD ./config/nginx/nginx.j2 /srv/config/nginx.j2
+ADD ./config/nginx/nginx.j2 /srv/config/nginx/nginx.j2
 
 # Copy SSL certs to location specified in nginx.conf
 ADD ./config/nginx/localhost.crt /etc/ssl/certs/localhost.crt

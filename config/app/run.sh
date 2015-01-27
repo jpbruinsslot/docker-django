@@ -3,7 +3,7 @@
 #####
 # nginx setup with provided template
 #####
-j2 /srv/config/nginx.j2 > /etc/nginx/sites-enabled/default
+j2 /srv/config/nginx/nginx.j2 > /etc/nginx/sites-enabled/default
 
 #####
 # Django setup
