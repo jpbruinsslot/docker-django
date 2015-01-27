@@ -7,6 +7,8 @@ correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
 See `TODO.md` for issues that I'm currently working on.
 
+This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
+
 Stack that is being used: Docker, Fig, Nginx, Django, uWSGI, Postgresql
 
 ## Folder structure
