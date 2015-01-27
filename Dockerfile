@@ -73,7 +73,7 @@ RUN chown -R django:django /srv/django
 #####
 # Add uWSGI config
 #####
-ADD ./config/app/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+ADD ./config/uwsgi/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 
 #####
@@ -89,7 +89,7 @@ ADD ./config/app/setup.sh /etc/my_init.d/setup.sh
 
 # Add uwsgi daemon
 RUN mkdir /etc/service/uwsgi
-ADD ./config/app/uwsgi.sh /etc/service/uwsgi/run
+ADD ./config/uwsgi/uwsgi.sh /etc/service/uwsgi/run
 
 # Add nginx daemon
 RUN mkdir /etc/service/nginx
