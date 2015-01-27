@@ -11,9 +11,10 @@ CMD ["/sbin/my_init"]
 
 
 #####
-# Add code to image
+# Phusion: add code to image
 #####
-ADD ./code /srv/django
+ADD ./code /home/app
+RUN chown -R app:app /home/app
 
 
 #####
@@ -23,7 +24,6 @@ RUN apt-get -y update && \
     apt-get install -y \
     build-essential \
     libpq-dev \
-    postgresql \
     git-core \
     curl \
     tmux \
@@ -32,30 +32,31 @@ RUN apt-get -y update && \
     nodejs \
     python \
     python-dev \
-    python-setuptools \
-    nginx \
-    supervisor
+    python-setuptools
 
 
 #####
-# Install and setup  PIP, uWSGI and virtualenv.
+# Install and setup PIP and install requirements
 #####
 
 # Install pip
 RUN easy_install pip
 
 # Install application requirements
-ADD ./config/app/requirements.txt /srv/config/requirements.txt
-RUN pip install -r /srv/config/requirements.txt
+ADD ./config/app/requirements.txt /srv/config/app/requirements.txt
+RUN pip install -r /srv/config/app/requirements.txt
 
 
 #####
 # Install nginx and setup configuration
 #####
 
+# Phusion: enable nginx
+RUN rm -f /etc/service/nginx/down
+
 # Add the nginx configuration file to the container
 RUN rm /etc/nginx/sites-enabled/default
-ADD ./config/nginx/nginx.j2 /srv/config/nginx.j2
+ADD ./config/nginx/nginx.j2 /srv/config/nginx/nginx.j2
 
 # Copy SSL certs to location specified in nginx.conf
 ADD ./config/nginx/localhost.crt /etc/ssl/certs/localhost.crt
@@ -63,32 +64,19 @@ ADD ./config/nginx/localhost.key /etc/ssl/private/localhost.key
 
 
 #####
-# Create django user, will own the Django app
+# Phusion: wsgi settings needed for passenger
 #####
-RUN adduser --no-create-home --disabled-login --group --system django
-RUN chown -R django:django /srv/django
+ADD ./config/app/passenger_wsgi.j2 /srv/config/app/passenger_wsgi.j2
 
 
 #####
-# Setup supervisor
+# Phusion: add additional script that need to run
 #####
-ADD ./config/app/supervisor-app.conf /etc/supervisor/conf.d/supervisor-app.conf
-
-
-#####
-# Add uWSGI config
-#####
-ADD ./config/app/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+RUN mkdir -p /etc/m_init.d
+ADD ./config/app/setup.sh /etc/my_init.d/setup.sh
 
 
 #####
 # Phusion: Clean up APT when done.
 #####
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
-#####
-# Add entrypoint script and go!
-#####
-ADD ./config/app/run.sh /run.sh
-CMD ["/run.sh"]

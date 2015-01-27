@@ -11,7 +11,7 @@ db:
 app:
     build: .
     volumes:
-        - code:/srv/django
+        - code:/home/app
     ports:
         - "9080:80"
         - "9443:443"
