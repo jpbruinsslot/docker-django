@@ -28,13 +28,13 @@ $ tree -L 1 --dirsfirst
 Install [docker](https://docker.io) for ubuntu:
 
 ```bash
-$ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
+$ curl -sSL https://get.docker.com/ubuntu/ | sh
 ```
 
 Install [fig](http://fig.sh):
 
 ```bash
-$ sudo pip install fig
+$ pip install fig
 ```
 
 Create django project in the `code` folder or copy a project to the `code`
@@ -65,31 +65,31 @@ DATABASES = {
 Start the container by issuing one of the following commands:
 
 ```bash
-$ sudo fig up             # run in foreground
-$ sudo fig up -d          # run in background
+$ fig up             # run in foreground
+$ fig up -d          # run in background
 ```
 
 ## Other commands
 Build images:
 
 ```bash
-$ sudo fig build
-$ sudo fig build --no-cache       # build without cache
+$ fig build
+$ fig build --no-cache       # build without cache
 ```
 
 See processes
 
 ```bash
-$ sudo fig ps             # fig processes
-$ sudo docker ps -a       # docker processes (sometimes needed)
+$ fig ps             # fig processes
+$ docker ps -a       # docker processes (sometimes needed)
 ```
 
 Run commands in container
 
 ```bash
-$ sudo fig run <service_name> /bin/bash
-$ sudo fig run <service_name> python manage.py shell
-$ sudo fig run <service_name> env                         # env vars
+$ fig run <service_name> /bin/bash
+$ fig run <service_name> python manage.py shell
+$ fig run <service_name> env                         # env vars
 ```
 
 Name of service is the name you gave it in the fig.yml
@@ -105,6 +105,6 @@ FATA[0000] Get http:///var/run/docker.sock/v1.16/containers/json: dial unix /var
 SOLUTION: Add yourself (user) to the docker group, remember to re-log after!
 
 ```bash
-$ sudo usermod -a -G docker <your_username>
-$ sudo service docker restart
+$ usermod -a -G docker <your_username>
+$ service docker restart
 ```
