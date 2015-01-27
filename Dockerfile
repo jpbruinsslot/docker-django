@@ -1,7 +1,7 @@
 #####
 # Using docker image by phusion see: http://phusion.github.io/baseimage-docker/
 #####
-FROM phusion/baseimage:0.9.16
+FROM phusion/passenger-customizable:0.9.15
 
 
 #####
@@ -52,9 +52,6 @@ RUN pip install -r /srv/config/requirements.txt
 #####
 # Install nginx and setup configuration
 #####
-
-# daemon mode off, we will run this with supervisor
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Add the nginx configuration file to the container
 RUN rm /etc/nginx/sites-enabled/default
