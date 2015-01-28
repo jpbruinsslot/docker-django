@@ -2,8 +2,8 @@
 
 - [ ] static files
 
-- [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/)
+- [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/), does this also mean postgres in the same container?
 
-- [*] runit instead of supervisord?
+- [x] runit instead of supervisord?
 
 - [ ] setup ssh for phusion
