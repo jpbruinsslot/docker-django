@@ -1,5 +1,5 @@
 #####
-# Using docker image by phusion see: http://phusion.github.io/baseimage-docker/
+# Using docker image by phusion see: https://github.com/phusion/passenger-docker
 #####
 FROM phusion/passenger-customizable:0.9.15
 
