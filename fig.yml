@@ -7,6 +7,9 @@ db:
     image: postgres
     volumes_from:
         - datastore
+    environment:
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
 
 app:
     build: .
