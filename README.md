@@ -18,7 +18,6 @@ $ tree -L 1 --dirsfirst
 .
 ├── code            # main application code
 ├── config          # config files
-├── static-files    # static files to be served with nginx
 ├── Dockerfile      # dockerfile for app container
 ├── fig.yml         # fig setup with container orchestration instructions
 ├── README.md       # this file
