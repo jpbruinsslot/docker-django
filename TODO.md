@@ -7,3 +7,5 @@
 - [x] runit instead of supervisord?
 
 - [ ] setup ssh for phusion
+
+- [ ] optimize uwsgi
