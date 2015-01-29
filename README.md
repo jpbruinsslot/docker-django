@@ -21,7 +21,7 @@ $ tree -L 1 --dirsfirst
 ├── static-files    # static files to be served with nginx
 ├── Dockerfile      # dockerfile for app container
 ├── fig.yml         # fig setup with container orchestration instructions
-└── README.md       # this file
+├── README.md       # this file
 └── TODO.md         # issues currently worked on
 
 ```
@@ -79,14 +79,14 @@ $ fig build
 $ fig build --no-cache       # build without cache
 ```
 
-See processes
+See processes:
 
 ```bash
 $ fig ps             # fig processes
 $ docker ps -a       # docker processes (sometimes needed)
 ```
 
-Run commands in container
+Run commands in container:
 
 ```bash
 $ fig run <service_name> /bin/bash
@@ -95,6 +95,12 @@ $ fig run <service_name> env                         # env vars
 ```
 
 Name of service is the name you gave it in the fig.yml
+
+Remove all docker images:
+
+```bash
+docker rm $(docker ps -a -q)
+```
 
 ## Troubleshooting
 I get the following error message when using the docker command:
