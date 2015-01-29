@@ -48,7 +48,8 @@ $ django-admin.py startproject <name_project>
 
 Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 
-Edit the `settings.py` file with the correct database credentials:
+Edit the `settings.py` file with the correct database credentials and static
+root:
 
 ```
 DATABASES = {
@@ -61,6 +62,8 @@ DATABASES = {
         'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
+
+STATIC_ROOT = '/srv/static-files'
 ```
 
 ## Fire it up
