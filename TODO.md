@@ -9,3 +9,5 @@
 - [ ] setup ssh for phusion
 
 - [ ] optimize uwsgi
+
+- [ ] Customizing Postgres in Docker, [link](https://osxdominion.wordpress.com/2015/01/25/customizing-postgres-in-docker/)
