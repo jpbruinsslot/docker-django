@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] static files
+- [x] static files
 
 - [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/), does this also mean postgres in the same container?
 
@@ -11,3 +11,5 @@
 - [ ] optimize uwsgi
 
 - [ ] Customizing Postgres in Docker, [link](https://osxdominion.wordpress.com/2015/01/25/customizing-postgres-in-docker/)
+
+- [ ] Update passenger-docker branch to latest version
