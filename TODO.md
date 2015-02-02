@@ -12,4 +12,4 @@
 
 - [ ] Customizing Postgres in Docker, [link](https://osxdominion.wordpress.com/2015/01/25/customizing-postgres-in-docker/)
 
-- [ ] Update passenger-docker branch to latest version
+- [x] Update passenger-docker branch to latest version
