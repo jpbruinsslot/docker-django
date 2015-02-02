@@ -18,10 +18,9 @@ $ tree -L 1 --dirsfirst
 .
 ├── code            # main application code
 ├── config          # config files
-├── static-files    # static files to be served with nginx
 ├── Dockerfile      # dockerfile for app container
 ├── fig.yml         # fig setup with container orchestration instructions
-└── README.md       # this file
+├── README.md       # this file
 └── TODO.md         # issues currently worked on
 
 ```
@@ -48,7 +47,8 @@ $ django-admin.py startproject <name_project>
 
 Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 
-Edit the `settings.py` file with the correct database credentials:
+Edit the `settings.py` file with the correct database credentials and static
+root:
 
 ```
 DATABASES = {
@@ -61,6 +61,8 @@ DATABASES = {
         'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
+
+STATIC_ROOT = '/srv/static-files'
 ```
 
 ## Fire it up
@@ -79,14 +81,14 @@ $ fig build
 $ fig build --no-cache       # build without cache
 ```
 
-See processes
+See processes:
 
 ```bash
 $ fig ps             # fig processes
 $ docker ps -a       # docker processes (sometimes needed)
 ```
 
-Run commands in container
+Run commands in container:
 
 ```bash
 $ fig run <service_name> /bin/bash
@@ -95,6 +97,12 @@ $ fig run <service_name> env                         # env vars
 ```
 
 Name of service is the name you gave it in the fig.yml
+
+Remove all docker images:
+
+```bash
+docker rm $(docker ps -a -q)
+```
 
 ## Troubleshooting
 I get the following error message when using the docker command:

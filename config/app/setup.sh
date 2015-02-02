@@ -21,5 +21,7 @@ fi
 j2 /srv/config/app/passenger_wsgi.j2  > /home/app/${DJANGO_PROJECT_NAME}/passenger_wsgi.py
 
 # Django: syncdb
-python /srv/django/${DJANGO_PROJECT_NAME}/manage.py syncdb --noinput
-# python /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
+python /home/app/${DJANGO_PROJECT_NAME}/manage.py syncdb --noinput
+
+# Django: collectstatic
+python /home/app/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput

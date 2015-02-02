@@ -1,7 +1,15 @@
 # TODO
 
-- [ ] static files
+- [x] static files
 
-- [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/)
+- [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/), does this also mean postgres in the same container?
 
-- [ ] runit instead of supervisord?
+- [x] runit instead of supervisord?
+
+- [ ] setup ssh for phusion
+
+- [ ] optimize uwsgi
+
+- [ ] Customizing Postgres in Docker, [link](https://osxdominion.wordpress.com/2015/01/25/customizing-postgres-in-docker/)
+
+- [x] Update passenger-docker branch to latest version

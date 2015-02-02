@@ -22,7 +22,7 @@ server {
 
     access_log /var/log/nginx/{{ NGINX_SERVER_NAME }}.default.log;
 
-    location /cdn {
+    location /static {
         alias /srv/static-files;
     }
 
