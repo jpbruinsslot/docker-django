@@ -11,6 +11,8 @@ This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker
 
 Stack that is being used: Docker, Fig, Nginx, Django, uWSGI, Postgresql
 
+The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
+
 ## Folder structure
 
 ```
