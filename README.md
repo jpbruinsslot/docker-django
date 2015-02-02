@@ -52,7 +52,7 @@ Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 Edit the `settings.py` file with the correct database credentials and static
 root:
 
-```
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
