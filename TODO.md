@@ -15,6 +15,6 @@
 - [ ] Customizing Postgres in Docker, [link](https://osxdominion.wordpress.com/2015/01/25/customizing-postgres-in-docker/)
 
 
-- [ ] Testing and CI
+- [ ] Testing and CI see: https://circleci.com/docs/docker
 
 - [ ] Deployment to production servers
