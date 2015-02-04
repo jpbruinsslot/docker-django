@@ -18,8 +18,8 @@ dependencies:
 
 test:
     override:
-        - ./fig run -d web; sleep 10
-        - curl --retry 10 --retry-delay 5 -v https://localhost:9443
+        - ./fig run -d app; sleep 10
+        - curl --retry 10 --retry-delay 5 -vk https://localhost:9443
 
 # Running tests 'inside' container
 # test:

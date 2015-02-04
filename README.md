@@ -1,6 +1,8 @@
 Docker Django
 -------------
 
+[![Circle CI](https://circleci.com/gh/erroneousboat/docker-django/tree/master.svg?style=shield)](https://circleci.com/gh/erroneousboat/docker-django/tree/master)
+
 A project to get you started with Docker and Django. This is mainly made to
 serve as an example for you to hack on. I don't claim that this is the
 correct way to setup a system with Django and Docker, and if you have any
