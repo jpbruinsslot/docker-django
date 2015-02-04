@@ -1,0 +1,27 @@
+#####
+# Circle CI
+# 
+# For running docker images on circle ci, see: https://circleci.com/docs/docker
+# For circle.yml explanation, see: https://circleci.com/docs/manually
+# Python specific configuration, see: https://circleci.com/docs/language-python
+#####
+
+machine:
+    services:
+        - docker
+
+dependencies:
+    pre:
+        - docker info
+        - curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > fig; chmod +x fig
+        - ./fig up -d
+
+test:
+    override:
+        - ./fig run -d app; sleep 10
+        - curl --retry 10 --retry-delay 5 -vk https://localhost:9443
+
+# Running tests 'inside' container
+# test:
+#   override:
+#     - docker run myimage bundle exec rake test
