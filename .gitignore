@@ -52,8 +52,3 @@ docs/_build/
 
 # PyBuilder
 target/
-
-# Docker Django Starter
-NOTES.md
-code/*
-!code/.gitkeep
