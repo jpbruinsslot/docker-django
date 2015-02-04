@@ -53,7 +53,5 @@ docs/_build/
 # PyBuilder
 target/
 
-# Docker Django Starter
-NOTES.md
-code/*
-!code/.gitkeep
+# Django starter
+code/starter/passenger_wsgi.py

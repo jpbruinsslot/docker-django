@@ -1,15 +1,19 @@
 Docker Django
 -------------
 
+[![Circle CI](https://circleci.com/gh/erroneousboat/docker-django/tree/master.svg?style=shield)](https://circleci.com/gh/erroneousboat/docker-django/tree/master)
+
 A project to get you started with Docker and Django. This is mainly made to
 serve as an example for you to hack on. I don't claim that this is the
 correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
 See `TODO.md` for issues that I'm currently working on.
 
-This project uses [passenger-docker](https://github.com/phusion/passenger-docker) provided by [phusion](http://www.phusion.nl).
+This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
 
 Stack that is being used: Docker, Fig, Nginx, Django, uWSGI, Postgresql
+
+The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
 
 ## Folder structure
 
@@ -18,6 +22,7 @@ $ tree -L 1 --dirsfirst
 .
 ├── code            # main application code
 ├── config          # config files
+├── circle.yml      # circle ci setup file
 ├── Dockerfile      # dockerfile for app container
 ├── fig.yml         # fig setup with container orchestration instructions
 ├── README.md       # this file
@@ -29,7 +34,7 @@ $ tree -L 1 --dirsfirst
 Install [docker](https://docker.io) for ubuntu:
 
 ```bash
-$ curl -sSL https://get.docker.com/ubuntu/ | sh
+$ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
 Install [fig](http://fig.sh):
@@ -39,7 +44,8 @@ $ pip install fig
 ```
 
 Create django project in the `code` folder or copy a project to the `code`
-folder:
+folder or use the sample project enclosed in this project and go directly to
+the section 'Fire it up':
 
 ```bash
 $ django-admin.py startproject <name_project>
@@ -50,7 +56,7 @@ Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 Edit the `settings.py` file with the correct database credentials and static
 root:
 
-```
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
