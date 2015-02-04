@@ -1,0 +1,9 @@
+machine:
+    services:
+        - docker
+
+dependencies:
+    pre:
+        - docker info
+        - curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > fig; chmod +x fig
+        - ./fig up -d
