@@ -22,6 +22,7 @@ $ tree -L 1 --dirsfirst
 .
 ├── code            # main application code
 ├── config          # config files
+├── circle.yml      # circle ci setup file
 ├── Dockerfile      # dockerfile for app container
 ├── fig.yml         # fig setup with container orchestration instructions
 ├── README.md       # this file
@@ -43,7 +44,8 @@ $ pip install fig
 ```
 
 Create django project in the `code` folder or copy a project to the `code`
-folder:
+folder or use the sample project enclosed in this project and go directly to
+the section 'Fire it up':
 
 ```bash
 $ django-admin.py startproject <name_project>
