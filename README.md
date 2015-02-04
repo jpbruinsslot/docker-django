@@ -34,7 +34,7 @@ $ tree -L 1 --dirsfirst
 Install [docker](https://docker.io) for ubuntu:
 
 ```bash
-$ curl -sSL https://get.docker.com/ubuntu/ | sh
+$ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
 Install [fig](http://fig.sh):
