@@ -18,10 +18,9 @@ dependencies:
 
 test:
     override:
-        - ./fig run -d app; sleep 10
         - curl --retry 10 --retry-delay 5 -vk https://localhost:9443
 
 # Running tests 'inside' container
 # test:
 #   override:
-#     - docker run myimage bundle exec rake test
+#     - ./fig run -d app python /srv/django/starter/manage.py test
