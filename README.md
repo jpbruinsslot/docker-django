@@ -31,12 +31,15 @@ $ tree -L 1 --dirsfirst
 ```
 
 ## Setting up
+
+### Docker
 Install [docker](https://docker.io) for ubuntu:
 
 ```bash
 $ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
+### Fig
 Install [fig](http://fig.sh):
 
 ```bash
@@ -53,6 +56,7 @@ $ django-admin.py startproject <name_project>
 
 Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 
+### Django
 Edit the `settings.py` file with the correct database credentials and static
 root:
 
@@ -70,6 +74,16 @@ DATABASES = {
 
 STATIC_ROOT = '/srv/static-files'
 ```
+
+### Phusion ssh (optional)
+The phusion baseimage gives us the possibility to access the container through
+ssh. Read their motives for this 
+[here](https://github.com/phusion/baseimage-docker#login_ssh).
+
+This project uses their `insecure_key` located in the `config/ssh/` folder to 
+access the container. You can also add your own public key to this folder and 
+use it to access the container. To do this see the section 
+`Phusion: enable ssh access to container` from the `Dockerfile`.
 
 ## Fire it up
 Start the container by issuing one of the following commands:
@@ -97,12 +111,18 @@ $ docker ps -a       # docker processes (sometimes needed)
 Run commands in container:
 
 ```bash
-$ fig run <service_name> /bin/bash
-$ fig run <service_name> python manage.py shell
-$ fig run <service_name> env                         # env vars
+# Name of service is the name you gave it in the fig.yml
+$ fig run [service_name] /bin/bash
+$ fig run [service_name] python manage.py shell
+$ fig run [service_name] env                         # env vars
 ```
 
-Name of service is the name you gave it in the fig.yml
+SSH into container (see also: Phusion ssh):
+
+```bash
+# Find app_name by using fig ps
+python utils/ssh.py [app_name] [optional_ssh_key]
+```
 
 Remove all docker images:
 

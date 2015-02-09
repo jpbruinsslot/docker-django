@@ -1,5 +1,7 @@
 #####
-# Using docker image by phusion see: http://phusion.github.io/baseimage-docker/
+# Using docker image by phusion
+#
+# see: http://phusion.github.io/baseimage-docker/
 #####
 FROM phusion/baseimage:0.9.16
 
@@ -74,6 +76,24 @@ RUN chown -R django:django /srv/django
 # Add uWSGI config
 #####
 ADD ./config/uwsgi/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+
+
+#####
+# Phusion: enable ssh access to container
+#
+# see: https://github.com/phusion/baseimage-docker#login_ssh
+#####
+
+# enable ssh access to container
+RUN rm -f /etc/service/sshd/down
+
+# permantly add insecure key
+RUN /usr/sbin/enable_insecure_key
+
+# use your own key (when using this comment out the insecure key statement)
+# see: https://github.com/phusion/baseimage-docker#using_your_own_key
+# ADD .config/ssh/your_key.pub /tmp/your_key.pub
+# RUN cat /tmp/your_key.pub >> /root/.ssh/authorized_keys && rm -f /tmp/your_key.pub
 
 
 #####
