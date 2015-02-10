@@ -82,12 +82,11 @@ ssh. Read their motives for this
 
 This project uses their `insecure_key` located in the `config/ssh/` folder to 
 access the container. You can also add your own public key to this folder and 
-use it to access the container. To do this see the section 
-`Phusion: enable ssh access to container` from the `Dockerfile`.
+use it to access the container. How to do this, read the section 
+`Phusion: enable ssh access to container` in the `Dockerfile`.
 
 ## Fire it up
 Start the container by issuing one of the following commands:
-
 ```bash
 $ fig up             # run in foreground
 $ fig up -d          # run in background
@@ -95,21 +94,18 @@ $ fig up -d          # run in background
 
 ## Other commands
 Build images:
-
 ```bash
 $ fig build
 $ fig build --no-cache       # build without cache
 ```
 
 See processes:
-
 ```bash
 $ fig ps             # fig processes
 $ docker ps -a       # docker processes (sometimes needed)
 ```
 
 Run commands in container:
-
 ```bash
 # Name of service is the name you gave it in the fig.yml
 $ fig run [service_name] /bin/bash
@@ -118,14 +114,12 @@ $ fig run [service_name] env                         # env vars
 ```
 
 SSH into container (see also: Phusion ssh):
-
 ```bash
 # Find app_name by using fig ps
 python utils/ssh.py [app_name] [optional_ssh_key]
 ```
 
 Remove all docker images:
-
 ```bash
 docker rm $(docker ps -a -q)
 ```
