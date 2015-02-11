@@ -103,8 +103,9 @@ $ fig build --no-cache       # build without cache
 
 See processes:
 ```bash
-$ fig ps             # fig processes
-$ docker ps -a       # docker processes (sometimes needed)
+$ fig ps                            # fig processes
+$ docker ps -a                      # docker processes (sometimes needed)
+$ docker stats [container name]     # see live docker container metrics
 ```
 
 Run commands in container:
