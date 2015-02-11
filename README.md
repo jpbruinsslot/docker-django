@@ -22,9 +22,11 @@ $ tree -L 1 --dirsfirst
 .
 ├── code            # main application code
 ├── config          # config files
+├── utils           # useful scripts
 ├── circle.yml      # circle ci setup file
 ├── Dockerfile      # dockerfile for app container
 ├── fig.yml         # fig setup with container orchestration instructions
+├── LICENSE         # license for this project
 ├── README.md       # this file
 └── TODO.md         # issues currently worked on
 
