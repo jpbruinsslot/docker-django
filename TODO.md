@@ -19,3 +19,5 @@
 - [ ] Customizing Postgres in Docker, [link](https://osxdominion.wordpress.com/2015/01/25/customizing-postgres-in-docker/)
 
 - [ ] Deployment to production servers
+
+- [ ] docker-compose.yml now has an env_file key, analogous to docker run --env-file, letting you specify multiple environment variables in a separate file. This is great if you have a lot of them, or if you want to keep sensitive information out of version control.
