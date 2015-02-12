@@ -11,7 +11,7 @@ See `TODO.md` for issues that I'm currently working on.
 
 This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
 
-Stack that is being used: Docker, Fig, Nginx, Django, uWSGI, Postgresql
+Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql
 
 The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
 
@@ -20,15 +20,15 @@ The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tre
 ```
 $ tree -L 1 --dirsfirst
 .
-├── code            # main application code
-├── config          # config files
-├── utils           # useful scripts
-├── circle.yml      # circle ci setup file
-├── Dockerfile      # dockerfile for app container
-├── fig.yml         # fig setup with container orchestration instructions
-├── LICENSE         # license for this project
-├── README.md       # this file
-└── TODO.md         # issues currently worked on
+├── code                # main application code
+├── config              # config files
+├── utils               # useful scripts
+├── circle.yml          # circle ci setup file
+├── Dockerfile          # dockerfile for app container
+├── docker-compose.yml  # docker-compose setup with container orchestration instructions
+├── LICENSE             # license for this project
+├── README.md           # this file
+└── TODO.md             # issues currently worked on
 
 ```
 
@@ -41,13 +41,20 @@ Install [docker](https://docker.io) for ubuntu:
 $ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
-### Fig
-Install [fig](http://fig.sh):
+### Docker Compose (previously Fig)
+Install [docker compose](https://github.com/docker/docker-compose):
 
 ```bash
-$ pip install fig
+# Install with PyPi
+$ pip install docker-compose==1.1.0-rc2
+
+# or install via curl
+curl -L https://github.com/docker/docker-compose/releases/download/1.1.0-rc2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
 ```
 
+Check the [github project](https://github.com/docker/docker-compose/releases) for new releases
+
+### Django
 Create django project in the `code` folder or copy a project to the `code`
 folder or use the sample project enclosed in this project and go directly to
 the section 'Fire it up':
@@ -56,9 +63,9 @@ the section 'Fire it up':
 $ django-admin.py startproject <name_project>
 ```
 
-Edit `fig.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
+Edit `docker-compose.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
 
-### Django
+
 Edit the `settings.py` file with the correct database credentials and static
 root:
 
@@ -90,35 +97,35 @@ use it to access the container. How to do this, read the section
 ## Fire it up
 Start the container by issuing one of the following commands:
 ```bash
-$ fig up             # run in foreground
-$ fig up -d          # run in background
+$ docker-compose up             # run in foreground
+$ docker-compose up -d          # run in background
 ```
 
 ## Other commands
 Build images:
 ```bash
-$ fig build
-$ fig build --no-cache       # build without cache
+$ docker-compose build
+$ docker-compose build --no-cache       # build without cache
 ```
 
 See processes:
 ```bash
-$ fig ps                            # fig processes
+$ docker-compose ps                 # docker-compose processes
 $ docker ps -a                      # docker processes (sometimes needed)
 $ docker stats [container name]     # see live docker container metrics
 ```
 
 Run commands in container:
 ```bash
-# Name of service is the name you gave it in the fig.yml
-$ fig run [service_name] /bin/bash
-$ fig run [service_name] python manage.py shell
-$ fig run [service_name] env                         # env vars
+# Name of service is the name you gave it in the docker-compose.yml
+$ docker-compose run [service_name] /bin/bash
+$ docker-compose run [service_name] python manage.py shell
+$ docker-compose run [service_name] env                         # env vars
 ```
 
 SSH into container (see also: Phusion ssh):
 ```bash
-# Find app_name by using fig ps
+# Find app_name by using docker-compose ps
 python utils/ssh.py [app_name] [optional_ssh_key]
 ```
 
