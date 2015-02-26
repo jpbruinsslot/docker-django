@@ -63,7 +63,7 @@ the section 'Fire it up':
 $ django-admin.py startproject <name_project>
 ```
 
-Edit `docker-compose.yml` file and add the name of your project at `DJANGO_PROJECT_NAME`
+Edit `config/environment/env` file and add the name of your project at `DJANGO_PROJECT_NAME` or just leave it as is to start the default application.
 
 
 Edit the `settings.py` file with the correct database credentials and static
@@ -106,6 +106,14 @@ image: erroneousboat/postgres
 # to ..
 image: postgres
 ```
+
+### Environment variables
+The file `config/environment/env` contains the environment variables needed in
+the containers. You can edit this as you see fit, and at the moment these are
+the defaults that this project uses. However when you intend to use this, keep
+in mind that you should keep this file out of version control as it can hold
+sensitive information regarding your project. The file itself will contain
+some commentary on how a variable will be used in the container.
 
 ## Fire it up
 Start the container by issuing one of the following commands:

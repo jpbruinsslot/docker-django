@@ -7,9 +7,8 @@ db:
     image: erroneousboat/postgres
     volumes_from:
         - datastore
-    environment:
-        - POSTGRES_USER=admin
-        - POSTGRES_PASSWORD=mysecretpassword
+    env_file:
+        - config/environment/env
 
 app:
     build: .
@@ -20,13 +19,5 @@ app:
         - "9443:443"
     links:
         - db
-    environment:
-        - POSTGRES_HOST=db
-        - POSTGRES_NAME=database
-        - POSTGRES_USER=admin
-        - POSTGRES_PASSWORD=mysecretpassword
-        - POSTGRES_PORT=5432
-        - DJANGO_PROJECT_NAME=starter
-        - NGINX_SERVER_NAME=localhost
-        - NGINX_CRT_NAME
-        - NGINX_KEY_NAME
+    env_file:
+        - config/environment/env
