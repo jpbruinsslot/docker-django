@@ -13,7 +13,7 @@ machine:
 dependencies:
     pre:
         - docker info
-        - sudo pip install docker-compose==1.1.0-rc2
+        - sudo pip install docker-compose
         - docker-compose up -d
 
 test:
