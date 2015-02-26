@@ -94,6 +94,19 @@ access the container. You can also add your own public key to this folder and
 use it to access the container. How to do this, read the section 
 `Phusion: enable ssh access to container` in the `Dockerfile`.
 
+### PostgreSQL
+This repository uses the [erroneousboat/postgres](https://github.com/erroneousboat/postgres) image. This is a customer container also based off of Phusion's [baseimage-docker](https://github.com/phusion/baseimage-docker).
+If you however want to use the official [postgres](https://registry.hub.docker.com/_/postgres/) docker image. Then change the following line in the 
+`docker-compose.yml` file.
+
+```yaml
+# Change this line ...
+image: erroneousboat/postgres
+
+# to ..
+image: postgres
+```
+
 ## Fire it up
 Start the container by issuing one of the following commands:
 ```bash
