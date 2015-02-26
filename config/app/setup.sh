@@ -1,11 +1,17 @@
 #! /bin/bash
 set -e
-set -x
 
 #####
 # nginx setup with provided template
 #####
 j2 /srv/config/nginx/nginx.j2 > /etc/nginx/sites-enabled/default
+
+
+#####
+# Postgres: wait until container is created
+#####
+echo "Wating before connecting to " $POSTGRES_HOST
+sleep 8
 
 #####
 # Django setup

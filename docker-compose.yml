@@ -4,12 +4,12 @@ datastore:
         - /opt/django-app/psql:/var/lib/postgresql/data
 
 db:
-    image: postgres
+    image: erroneousboat/postgres
     volumes_from:
         - datastore
     environment:
-        - POSTGRES_USER
-        - POSTGRES_PASSWORD
+        - POSTGRES_USER=admin
+        - POSTGRES_PASSWORD=mysecretpassword
 
 app:
     build: .
@@ -22,8 +22,8 @@ app:
         - db
     environment:
         - POSTGRES_HOST=db
-        - POSTGRES_NAME=postgres
-        - POSTGRES_USER=postgres
+        - POSTGRES_NAME=database
+        - POSTGRES_USER=admin
         - POSTGRES_PASSWORD=mysecretpassword
         - POSTGRES_PORT=5432
         - DJANGO_PROJECT_NAME=starter
