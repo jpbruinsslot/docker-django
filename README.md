@@ -150,9 +150,14 @@ SSH into container (see also: Phusion ssh):
 python utils/ssh.py [app_name] [optional_ssh_key]
 ```
 
-Remove all docker images:
+Remove all docker containers:
 ```bash
 docker rm $(docker ps -a -q)
+```
+
+Remove all docker images:
+```bash
+docker rmi $(docker images -q)
 ```
 
 ## Troubleshooting
