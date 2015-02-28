@@ -1,7 +1,13 @@
+#####
+# Docker compose YAML file
+#
+# For documentation see: https://docs.docker.com/compose/yml/
+#####
+
 datastore:
     image: busybox
     volumes:
-        - /opt/django-app/psql:/var/lib/postgresql/data
+        - /opt/django-app/psql:/usr/local/pgsql/data
 
 db:
     image: erroneousboat/postgres
