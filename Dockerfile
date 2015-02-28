@@ -48,6 +48,9 @@ RUN easy_install pip
 ADD ./config/app/requirements.txt /srv/config/requirements.txt
 RUN pip install -r /srv/config/requirements.txt
 
+# Add database check script
+ADD ./config/app/database-check.py /srv/config/database-check.py
+
 
 #####
 # Install nginx and setup configuration
