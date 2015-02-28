@@ -18,10 +18,10 @@
 
 - [x] docker-compose.yml now has an env_file key, analogous to docker run --env-file, letting you specify multiple environment variables in a separate file. This is great if you have a lot of them, or if you want to keep sensitive information out of version control.
 
-- [ ] Add commentary to the variables on how they are used
-
-- [ ] Check in setup.sh if the database container is ready to accept connections
+- [x] Check in setup.sh if the database container is ready to accept connections
 and then execute the django setup 
+
+- [ ] Add commentary to the variables on how they are used
 
 - [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/), does this also mean postgres in the same container?
 
