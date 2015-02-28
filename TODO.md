@@ -21,6 +21,9 @@
 - [x] Check in setup.sh if the database container is ready to accept connections
 and then execute the django setup 
 
+- [ ] Check if it is possible to use the official postgres image and if the
+project will still run
+
 - [ ] Add commentary to the variables on how they are used
 
 - [ ] "We encourage you to use multiple processes." from [phusion](http://phusion.github.io/baseimage-docker/), does this also mean postgres in the same container?

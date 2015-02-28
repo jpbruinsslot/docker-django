@@ -95,17 +95,10 @@ use it to access the container. How to do this, read the section
 `Phusion: enable ssh access to container` in the `Dockerfile`.
 
 ### PostgreSQL
-This repository uses the [erroneousboat/postgres](https://github.com/erroneousboat/postgres) image. This is a custom container also based off of Phusion's [baseimage-docker](https://github.com/phusion/baseimage-docker).
-If you however want to use the official [postgres](https://registry.hub.docker.com/_/postgres/) docker image. Then change the following line in the 
-`docker-compose.yml` file.
-
-```yaml
-# Change this line ...
-image: erroneousboat/postgres
-
-# to ..
-image: postgres
-```
+This repository uses the 
+[erroneousboat/postgres](https://github.com/erroneousboat/postgres) image. 
+This is a custom container also based off of Phusion's 
+[baseimage-docker](https://github.com/phusion/baseimage-docker).
 
 ### Environment variables
 The file `config/environment/env` contains the environment variables needed in
