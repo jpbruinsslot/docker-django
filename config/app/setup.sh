@@ -19,7 +19,7 @@ j2 /srv/config/nginx/nginx.j2 > /etc/nginx/sites-enabled/default
 #####
 ./srv/config/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
-    sleep 1; echo "Waiting for postgres container ..."
+    sleep 1; echo "*** Waiting for postgres container ..."
     ./srv/config/database-check.py > /dev/null 2>&1
 done
 
@@ -29,7 +29,7 @@ done
 #####
 
 # Django: syncdb
-python /srv/django/${DJANGO_PROJECT_NAME}/manage.py syncdb --noinput
+python /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 
 # Django: collectstatic
 python /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
