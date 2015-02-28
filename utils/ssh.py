@@ -10,16 +10,19 @@ def parse_args():
     Check whether the arguments given from the command line make any sense
     """
     len_args = len(sys.argv)
-    if sys.argv[1] == "--help" or sys.argv[1] == "-h":
-        sys.exit(logging.info(
+    if len_args < 2:
+        sys.exit(logging.warning(
             "Usage: python ssh.py <app_name> <optional_ssh_key>"))
-    else:
-        if len_args == 2:
-            ssh_into_container(sys.argv[1])
-        elif len_args == 3:
-            ssh_into_container(sys.argv[1], key=sys.argv[2])
+    elif len_args == 2:
+        if sys.argv[1] == "--help" or sys.argv[1] == "-h":
+            sys.exit(logging.info(
+                "Usage: python ssh.py <app_name> <optional_ssh_key>"))
         else:
-            sys.exit(logging.warning("Too few or too many arguments given"))
+            ssh_into_container(sys.argv[1])
+    elif len_args == 3:
+        ssh_into_container(sys.argv[1], key=sys.argv[2])
+    else:
+        sys.exit(logging.warning("Too few or too many arguments given"))
 
 
 def ssh_into_container(container_name, key="insecure_key"):
