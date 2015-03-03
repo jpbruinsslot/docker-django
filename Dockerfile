@@ -46,6 +46,9 @@ RUN easy_install pip
 ADD ./config/app/requirements.txt /srv/config/app/requirements.txt
 RUN pip install -r /srv/config/app/requirements.txt
 
+# Add database check script
+ADD ./config/app/database-check.py /srv/config/database-check.py
+
 
 #####
 # Install nginx and setup configuration
@@ -74,6 +77,24 @@ ADD ./config/app/passenger_wsgi.j2 /srv/config/app/passenger_wsgi.j2
 #####
 RUN mkdir -p /etc/m_init.d
 ADD ./config/app/setup.sh /etc/my_init.d/setup.sh
+
+
+#####
+# Phusion: enable ssh access to container
+#
+# see: https://github.com/phusion/baseimage-docker#login_ssh
+#####
+
+# enable ssh access to container
+RUN rm -f /etc/service/sshd/down
+
+# permantly add insecure key
+RUN /usr/sbin/enable_insecure_key
+
+# use your own key (when using this comment out the insecure key statement)
+# see: https://github.com/phusion/baseimage-docker#using_your_own_key
+# ADD .config/ssh/your_key.pub /tmp/your_key.pub
+# RUN cat /tmp/your_key.pub >> /root/.ssh/authorized_keys && rm -f /tmp/your_key.pub
 
 
 #####

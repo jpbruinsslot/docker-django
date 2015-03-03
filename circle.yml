@@ -13,12 +13,12 @@ machine:
 dependencies:
     pre:
         - docker info
-        - curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > fig; chmod +x fig
-        - ./fig up -d
+        - sudo pip install docker-compose
+        - docker-compose up -d
 
 test:
     override:
-        - ./fig run -d app; sleep 10
+        - sleep 10
         - curl --retry 10 --retry-delay 5 -vk https://localhost:9443
 
 # Running tests 'inside' container

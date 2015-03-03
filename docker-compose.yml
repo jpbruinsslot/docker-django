@@ -1,0 +1,29 @@
+#####
+# Docker compose YAML file
+#
+# For documentation see: https://docs.docker.com/compose/yml/
+#####
+
+datastore:
+    image: busybox
+    volumes:
+        - /opt/django-app/psql:/usr/local/pgsql/data
+
+db:
+    image: erroneousboat/postgres
+    volumes_from:
+        - datastore
+    env_file:
+        - config/environment/env
+
+app:
+    build: .
+    volumes:
+        - code:/srv/django
+    ports:
+        - "9080:80"
+        - "9443:443"
+    links:
+        - db
+    env_file:
+        - config/environment/env
