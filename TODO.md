@@ -21,6 +21,10 @@
 - [x] Check in setup.sh if the database container is ready to accept connections
 and then execute the django setup 
 
+- [ ] Might be able to refactor scripts that check for postgres container
+availability with the use of service discovery and scheduling with tools such
+as swarm, etcd, consul etc.
+
 - [ ]  *** WARNING: you have enabled harakiri without post buffering. Slow upload could be rejected on post-unbuffered webservers ***
 
 - [ ] create small script that quickly initializes docker stats for all
