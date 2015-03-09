@@ -42,7 +42,7 @@ $ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
 ### Docker Compose (previously Fig)
-Install [docker compose](https://github.com/docker/docker-compose):
+Install [docker compose](https://github.com/docker/compose):
 
 ```bash
 # Install with PyPi
