@@ -1,9 +1,44 @@
+#####
+# In this file you can specify the environment variables. The containers will
+# be able to access these variables and use them if necessary. Remember when
+# you are using this project this files needs to be out of version control,
+# because it can hold sensitive information.
+#####
+
+
+#####
+# Postgresql
+#####
+
+# Name and port of the host where the postgres container is running. This will
+# be the name that is specified in docker-compose.yml
 POSTGRES_HOST=db
+POSTGRES_PORT=5432
+
+# Specify the name of the database, name and the password of the database user
 POSTGRES_NAME=database
 POSTGRES_USER=admin
 POSTGRES_PASSWORD=mysecretpassword
-POSTGRES_PORT=5432
+
+
+#####
+# Django
+#####
+
+# The name of the Django project, this is used in the files django-uwsgi.ini
+# and setup.sh
 DJANGO_PROJECT_NAME=starter
+
+
+#####
+# Nginx
+#####
+
+# Server name used in nginx.j2
 NGINX_SERVER_NAME=localhost
+
+# Here you can specify the location of your SSL/TLS certificate and key.
+# This will be specified in the nginx.j2 When empty it uses the default 
+# self-signed certificate provided by this project
 NGINX_CRT_NAME
 NGINX_KEY_NAME
