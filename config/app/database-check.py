@@ -18,7 +18,7 @@ def database_check():
         psycopg2.connect(
             dbname=os.environ.get('POSTGRES_NAME'),
             user=os.environ.get('POSTGRES_USER'),
-            password=os.environ.get('POSTGRES_PASS'),
+            password=os.environ.get('POSTGRES_PASSWORD'),
             host=os.environ.get('POSTGRES_HOST'),
             port=os.environ.get('POSTGRES_PORT'))
     except:
