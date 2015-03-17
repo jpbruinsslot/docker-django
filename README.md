@@ -7,7 +7,7 @@ A project to get you started with Docker and Django. This is mainly made to
 serve as an example for you to hack on. I don't claim that this is the
 correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
-See `TODO.md` for issues that I'm currently working on.
+See the issues for the things I'm working on now.
 
 This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
 
