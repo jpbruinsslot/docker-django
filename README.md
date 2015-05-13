@@ -156,10 +156,22 @@ $ docker-compose run [service_name] python manage.py shell
 $ docker-compose run [service_name] env                         # env vars
 ```
 
+Take note that this will spin up entirely new containers for your code
+but only if the containers are not up already, in which case they are linked
+to that (running) container. To initiate a command in an existing running
+container you'll have two methods, either by using the `docker exec` tool
+or through ssh.
+
+Using the docker exec tool for restarting uwsgi in a running container.
+```bash
+# Find container_name by using docker-compose ps
+$ docker exec [container_name] sv restart uwsgi 
+```
+
 SSH into container (see also: Phusion ssh):
 ```bash
-# Find app_name by using docker-compose ps
-python utils/ssh.py [app_name] [optional_ssh_key]
+# Find container_name by using docker-compose ps
+python utils/ssh.py [container_name] [optional_ssh_key]
 ```
 
 Remove all docker containers:
@@ -173,7 +185,7 @@ docker rmi $(docker images -q)
 ```
 
 ## Troubleshooting
-I get the following error message when using the docker command:
+QUESTION: I get the following error message when using the docker command:
 
 ```
 FATA[0000] Get http:///var/run/docker.sock/v1.16/containers/json: dial unix /var/run/docker.sock: permission denied. Are you trying to connect to a TLS-enabled daemon without TLS? 
@@ -186,3 +198,7 @@ SOLUTION: Add yourself (user) to the docker group, remember to re-log after!
 $ usermod -a -G docker <your_username>
 $ service docker restart
 ```
+
+QUESTION: Changes in my code are not being updated despite using volumes.
+
+SOLUTION: Remember to restart uWSGI for the changes to take effect.
