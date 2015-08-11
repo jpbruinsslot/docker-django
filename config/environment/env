@@ -16,8 +16,8 @@ POSTGRES_HOST=db
 POSTGRES_PORT=5432
 
 # Specify the name of the database, name and the password of the database user
-POSTGRES_NAME=database
-POSTGRES_USER=admin
+POSTGRES_NAME=postgres
+POSTGRES_USER=postgres
 POSTGRES_PASSWORD=mysecretpassword
 
 
@@ -34,7 +34,7 @@ DJANGO_PROJECT_NAME=starter
 # Nginx
 #####
 
-# Server name used in nginx.j2
+# Server name used in nginx.tmpl
 NGINX_SERVER_NAME=localhost
 
 # Here you can specify the location of your SSL/TLS certificate and key.

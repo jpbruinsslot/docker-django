@@ -10,7 +10,7 @@ datastore:
         - /opt/django-app/psql:/usr/local/pgsql/data
 
 db:
-    image: erroneousboat/postgres
+    image: postgres
     volumes_from:
         - datastore
     env_file:
@@ -19,11 +19,11 @@ db:
 app:
     build: .
     volumes:
-        - code:/srv/django
+        - ./code:/srv/django
     ports:
         - "9080:80"
         - "9443:443"
     links:
         - db
     env_file:
-        - config/environment/env
+        - ./config/environment/env

@@ -23,30 +23,30 @@ ADD ./code /srv/django
 #####
 RUN apt-get -y update && \
     apt-get install -y \
-    build-essential \
     libpq-dev \
-    git-core \
-    curl \
-    tmux \
-    vim \
-    wget \
-    nodejs \
-    python \
-    python-dev \
-    python-setuptools \
-    nginx
+    python3 \
+    python3-dev \
+    python3-setuptools \
+    python3-pip \
+    nginx \
+    wget
 
 
 #####
-# Install and setup  PIP, uWSGI and virtualenv.
+# Download template application
 #####
+RUN wget \
+    https://github.com/erroneousboat/template/raw/master/bin/template \
+    -P /usr/local/bin
+RUN chmod +x /usr/local/bin/template
 
-# Install pip
-RUN easy_install pip
+#####
+# Install python requirements
+#####
 
 # Install application requirements
 ADD ./config/app/requirements.txt /srv/config/requirements.txt
-RUN pip install -r /srv/config/requirements.txt
+RUN pip3 install -r /srv/config/requirements.txt
 
 # Add database check script
 ADD ./config/app/database-check.py /srv/config/database-check.py
@@ -61,7 +61,7 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Add the nginx configuration file to the container
 RUN rm /etc/nginx/sites-enabled/default
-ADD ./config/nginx/nginx.j2 /srv/config/nginx/nginx.j2
+ADD ./config/nginx/nginx.tmpl /srv/config/nginx/nginx.tmpl
 
 # Copy SSL certs to location specified in nginx.conf
 ADD ./config/nginx/localhost.crt /etc/ssl/certs/localhost.crt
