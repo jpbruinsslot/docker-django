@@ -1,0 +1,50 @@
+gzip_vary on; # cf http://blog.maxcdn.com/accept-encoding-its-vary-important/
+gzip_proxied any;
+gzip_types *;
+
+# http://nginx.org/en/docs/http/configuring_https_servers.html#optimization
+ssl_session_cache shared:SSL:1m;
+ssl_session_timeout 10m;
+
+# Rewrite all HTTP to HTTPS
+server {
+    listen 80 default_server;
+    server_name {{ .Env.NGINX_SERVER_NAME }};
+
+    return 301 https://$http_host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    server_name {{ .Env.NGINX_SERVER_NAME }};
+
+    # see http://nginx.org/en/docs/http/configuriNGINX_https_servers.html
+    {{if .Env.NGINX_CRT_NAME}}
+        ssl_certificate /etc/ssl/certs/{{ .Env.NGINX_CRT_NAME }};
+        ssl_certificate_key /etc/ssl/private/{{ .Env.NGINX_KEY_NAME }};
+    {{else}}
+        ssl_certificate /etc/ssl/certs/localhost.crt;
+        ssl_certificate_key /etc/ssl/private/localhost.key;
+    {{end}}
+
+    ssl_prefer_server_ciphers on;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # ie defaults minus SSLv3
+
+    access_log /var/log/nginx/{{ .Env.NGINX_SERVER_NAME }}.default.log;
+
+    location /static {
+        alias /srv/static-files;
+    }
+    
+    #Prevent serving of sysfiles / vim backup files
+    location ~ /\.          { access_log off; log_not_found off; deny all; }
+    location ~ ~$           { access_log off; log_not_found off; deny all; }
+
+    location / {
+        include uwsgi_params;
+        uwsgi_param HTTP_X_FORWARDED_PROTOCOL $scheme; # see django settings
+        uwsgi_pass unix:///run/django.socket;
+    }
+}
+
+server_tokens off;

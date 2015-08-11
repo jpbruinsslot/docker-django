@@ -8,7 +8,7 @@
 #####
 # nginx setup with provided template
 #####
-j2 /srv/config/nginx/nginx.j2 > /etc/nginx/sites-enabled/default
+./usr/local/bin/template /srv/config/nginx/nginx.tmpl:/etc/nginx/sites-enabled/default
 
 
 #####
@@ -17,10 +17,10 @@ j2 /srv/config/nginx/nginx.j2 > /etc/nginx/sites-enabled/default
 # $?                most recent foreground pipeline exit status
 # > /dev/null 2>&1  get stderr while discarding stdout
 #####
-./srv/config/database-check.py > /dev/null 2>&1
+python3 /srv/config/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
     sleep 1; echo "*** Waiting for postgres container ..."
-    ./srv/config/database-check.py > /dev/null 2>&1
+    python3 /srv/config/database-check.py > /dev/null 2>&1
 done
 
 
@@ -29,7 +29,7 @@ done
 #####
 
 # Django: syncdb
-python /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
+python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 
 # Django: collectstatic
-python /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
+python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
