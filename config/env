@@ -19,6 +19,7 @@ POSTGRES_PORT=5432
 POSTGRES_NAME=postgres
 POSTGRES_USER=postgres
 
+PGDATA=/var/lib/postgresql/data/pgdata
 
 #####
 # Django

@@ -4,8 +4,17 @@
 # when it can't connect to the database. Otherwise this script will exit with
 # an error code and the creation of the container will stop
 
+chown -R www-data:www-data /srv /run/uwsgi
+
 test ! -z ${DJANGO_PROJECT_NAME} && \
 sed -ri "s/##DJANGO_PROJECT_NAME##/${DJANGO_PROJECT_NAME}/" /etc/uwsgi/django-uwsgi.ini
+
+#####
+# Install python requirements
+#####
+
+# Install application requirements
+pip3 install -r /srv/django/$DJANGO_PROJECT_NAME/pip.txt
 
 #####
 # Postgres: wait until container is created
@@ -30,4 +39,4 @@ python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 # Django: collectstatic
 python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
 
-/usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini --uid 33 --gid 33 --die-on-term
+/usr/local/bin/uwsgi /etc/uwsgi/django-uwsgi.ini --uid 33 --gid 33

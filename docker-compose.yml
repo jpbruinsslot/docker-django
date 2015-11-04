@@ -6,33 +6,51 @@
 
 app:
     build: .
+    volumes_from:
+        - static
+        - socket
     volumes:
         - ./projects:/srv/django
-        - /run/uwsgi
     links:
         - db
     env_file: ./config/env
     environment:
         - POSTGRES_PASSWORD
+    restart: always
 
 www:
     build: config/nginx
     volumes_from: 
-        - app
+        - static
+        - socket
     volumes:
         - ./config/nginx/default.crt:/etc/ssl/certs/default.crt
         - ./config/nginx/default.key:/etc/ssl/private/default.key
     ports:
         - "9080:80"
         - "9443:443"
-    environment: 
-        - NGINX_SERVER_NAME
+    restart: always
 
 db:
     image: postgres:latest
-    volumes:
-        - ./db:/var/lib/postgresql/data
+    volumes_from:
+        - datastore
     env_file: ./config/env
     environment:
         - POSTGRES_PASSWORD
-        - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always
+
+datastore:
+    image: busybox
+    volumes:
+        - /var/lib/postgresql/data
+
+static:
+    image: busybox
+    volumes:
+        - /srv/static
+
+socket:
+    image: busybox
+    volumes:
+        - /run/uwsgi

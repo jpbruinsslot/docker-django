@@ -28,7 +28,7 @@ server {
     access_log /var/log/nginx/##NGINX_SERVER_NAME##.default.log;
 
     location /static {
-        alias /srv/static-files;
+        alias /srv/static;
     }
     
     #Prevent serving of sysfiles / vim backup files

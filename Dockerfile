@@ -10,20 +10,11 @@ RUN apt-get -y update && \
     python3-dev \
     python3-setuptools \
     python3-pip \
-    wget && \
+    libpcre3-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# add libpcre3 libpcre3-dev for internal routing
-
-#####
-# Install python requirements
-#####
-
-ENV DJANGO_PROJECT_NAME ${DJANGO_PROJECT_NAME:-starter}
-
-# Install application requirements
-ADD projects/$DJANGO_PROJECT_NAME/pip.txt /srv/config/requirements.txt
-RUN pip3 install -r /srv/config/requirements.txt
+RUN pip3 install uwsgi && \
+    pip3 install psycopg2
 
 # Add database check script
 ADD config/uwsgi/database-check.py /srv/config/database-check.py
@@ -39,7 +30,5 @@ ADD config/uwsgi/setup.sh /srv/config/setup.sh
 #####
 RUN chown -R www-data:www-data /srv /etc/uwsgi
 WORKDIR /srv
-
-USER www-data
 
 CMD /bin/bash /srv/config/setup.sh
