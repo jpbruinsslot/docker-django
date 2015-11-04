@@ -9,8 +9,6 @@ correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
 See the issues for the things I'm working on now.
 
-This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
-
 Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql
 
 The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
@@ -49,7 +47,7 @@ Install [docker compose](https://github.com/docker/compose):
 $ pip install docker-compose
 
 # or install via curl
-curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
 ```
 
 Check the [github project](https://github.com/docker/docker-compose/releases) for new releases
@@ -84,18 +82,8 @@ DATABASES = {
 STATIC_ROOT = '/srv/static-files'
 ```
 
-### Phusion ssh (optional)
-The phusion baseimage gives us the possibility to access the container through
-ssh. Read their motives for this 
-[here](https://github.com/phusion/baseimage-docker#login_ssh).
-
-This project uses their `insecure_key` located in the `config/ssh/` folder to 
-access the container. You can also add your own public key to this folder and 
-use it to access the container. How to do this, read the section 
-`Phusion: enable ssh access to container` in the `Dockerfile`.
-
 ### Environment variables
-The file `config/environment/env` contains the environment variables needed in
+The file `config/env` contains the environment variables needed in
 the containers. You can edit this as you see fit, and at the moment these are
 the defaults that this project uses. However when you intend to use this, keep
 in mind that you should keep this file out of version control as it can hold
@@ -136,18 +124,6 @@ but only if the containers are not up already, in which case they are linked
 to that (running) container. To initiate a command in an existing running
 container you'll have two methods, either by using the `docker exec` tool
 or through ssh.
-
-Using the docker exec tool for restarting uwsgi in a running container.
-```bash
-# Find container_name by using docker-compose ps
-$ docker exec [container_name] sv restart uwsgi 
-```
-
-SSH into container (see also: Phusion ssh):
-```bash
-# Find container_name by using docker-compose ps
-python utils/ssh.py [container_name] [optional_ssh_key]
-```
 
 Remove all docker containers:
 ```bash

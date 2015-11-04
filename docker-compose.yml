@@ -4,26 +4,34 @@
 # For documentation see: https://docs.docker.com/compose/yml/
 #####
 
-datastore:
-    image: busybox
-    volumes:
-        - /opt/django-app/psql:/usr/local/pgsql/data
-
-db:
-    image: postgres
-    volumes_from:
-        - datastore
-    env_file:
-        - config/environment/env
-
 app:
-    build: .
+    build: config/app
     volumes:
         - ./code:/srv/django
+        - /run/uwsgi
+    links:
+        - db
+    env_file: ./config/env
+    environment:
+        - POSTGRES_PASSWORD
+
+www:
+    build: config/nginx
+    volumes_from: 
+        - app
+    volumes:
+        - ./config/nginx/default.crt:/etc/ssl/certs/default.crt
+        - ./config/nginx/default.key:/etc/ssl/private/default.key
     ports:
         - "9080:80"
         - "9443:443"
-    links:
-        - db
-    env_file:
-        - ./config/environment/env
+    environment: 
+        - NGINX_SERVER_NAME
+
+db:
+    image: postgres:latest
+    volumes:
+        - ./db:/var/lib/postgresql/data
+    env_file: ./config/env
+    environment:
+        - POSTGRES_PASSWORD

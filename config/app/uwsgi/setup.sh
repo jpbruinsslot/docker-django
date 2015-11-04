@@ -4,12 +4,8 @@
 # when it can't connect to the database. Otherwise this script will exit with
 # an error code and the creation of the container will stop
 
-
-#####
-# nginx setup with provided template
-#####
-./usr/local/bin/template /srv/config/nginx/nginx.tmpl:/etc/nginx/sites-enabled/default
-
+test ! -z ${DJANGO_PROJECT_NAME} && \
+sed -ri "s/##DJANGO_PROJECT_NAME##/${DJANGO_PROJECT_NAME}/" /etc/uwsgi/django-uwsgi.ini
 
 #####
 # Postgres: wait until container is created
@@ -33,3 +29,5 @@ python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 
 # Django: collectstatic
 python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
+
+/usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini --uid 33
