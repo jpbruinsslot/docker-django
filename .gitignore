@@ -54,4 +54,6 @@ docs/_build/
 target/
 
 # Django starter
-code/starter/passenger_wsgi.py
+projects/starter/passenger_wsgi.py
+
+docker-compose.*.yml

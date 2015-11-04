@@ -7,7 +7,7 @@
 app:
     build: config/app
     volumes:
-        - ./code:/srv/django
+        - ./projects:/srv/django
         - /run/uwsgi
     links:
         - db

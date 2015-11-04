@@ -19,8 +19,10 @@ RUN apt-get -y update && \
 # Install python requirements
 #####
 
+ENV PROJECT_NAME ${PROJECT_NAME:-starter}
+
 # Install application requirements
-ADD requirements.txt /srv/config/requirements.txt
+ADD ../../projects/$PROJECT_NAME/pip.txt /srv/config/requirements.txt
 RUN pip3 install -r /srv/config/requirements.txt
 
 # Add database check script
