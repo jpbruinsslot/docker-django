@@ -24,6 +24,7 @@ ADD config/uwsgi/database-check.py /srv/config/database-check.py
 #####
 ADD config/uwsgi/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 ADD config/uwsgi/setup.sh /srv/config/setup.sh
+ADD config/uwsgi/reload.sh /srv/config/reload.sh
 
 #####
 # Create django user, will own the Django app

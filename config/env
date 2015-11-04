@@ -28,3 +28,5 @@ PGDATA=/var/lib/postgresql/data/pgdata
 # The name of the Django project, this is used in the files django-uwsgi.ini
 # and setup.sh
 DJANGO_PROJECT_NAME=starter
+DJANGO_THREADS=10
+DJANGO_PROCESSES=2

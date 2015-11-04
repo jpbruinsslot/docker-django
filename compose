@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+PROJECT=$1
+shift
+
+if [[ $1 == shell ]]
+then
+	docker exec -it ${PROJECT}_app_1 /usr/bin/python3 django/${PROJECT}/manage.py shell
+	exit $?
+fi
+
+if [[ $1 == reload ]]
+then
+	docker exec -it ${PROJECT}_app_1 bash /srv/config/reload.sh
+	docker exec -it ${PROJECT}_www_1 bash /srv/config/reload.sh
+	exit $?
+fi
+
+exec docker-compose -p $PROJECT -f ./docker-compose.yml -f ./docker-compose.$PROJECT.yml "$@"

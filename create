@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -B
+
+POSTGRES_PASSWORD=$(python -c "from random import choice; print ''.join([choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') for i in range(32)])")
+DOMAIN=${DOMAIN:-localhost}
+PROJECT=${1:-starter}
+
+read -e -p "Django Project Name: " -i "$PROJECT" PROJECT
+
+if [ ! -e ./projects/$PROJECT/manage.py ]; then
+	echo "You need to put your project files into ./projects/$PROJECT first"
+	exit 1
+fi
+
+read -e -p "Domain: " -i "$DOMAIN" DOMAIN
+echo "If you want to serve pregenerated /static folder instead of Django's collectstatic,"
+echo "then enter its directory relative to the project folder."
+read -e -p "Serve /static from path [empty for 'collectstatic']: " -i "$BIND_STATIC" BIND_STATIC
+
+if [ ! -z $BIND_STATIC ]
+then 
+	BINDING_STATIC=true
+	BIND_STATIC="./projects/${PROJECT}/${BIND_STATIC}:"
+else
+	BINDING_STATIC=false
+fi
+
+cp ./docker-compose.template.yml ./docker-compose.$PROJECT.yml
+
+function replace {
+  LC_ALL=C sed -i '' "s/$(echo $1 | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$(echo $2 | sed -e 's/[\/&]/\\&/g')/g" $3
+}
+
+VARS=( POSTGRES_PASSWORD DOMAIN PROJECT BIND_STATIC BINDING_STATIC )
+
+for var in "${VARS[@]}"
+do
+	replace "##${var}##" "${!var}" "./docker-compose.$PROJECT.yml"
+done
+
+echo "Success! You may use ./compose $PROJECT instead of docker-compose with parameters to reference your project directly."
+echo "For example:"
+echo "./compose $PROJECT build"
+echo "./compose $PROJECT up -d"
+echo "./compose $PROJECT logs"
+echo "./compose $PROJECT ps"
+echo 
+echo "A special alias will let you enter django shell:"
+echo "./compose $PROJECT shell"
+echo
+echo "You can also reload Django and Nginx with:"
+echo "./compose $PROJECT reload"

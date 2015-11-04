@@ -1,0 +1,29 @@
+#####
+# Docker compose YAML file overriding docker-compose.yml
+#
+# For documentation see: https://docs.docker.com/compose/yml/
+#####
+
+app:
+    hostname: app
+    domainname: ##DOMAIN##
+    environment:
+        - POSTGRES_PASSWORD=##POSTGRES_PASSWORD##
+        - DJANGO_PROJECT_NAME=##PROJECT##
+        - BINDING_STATIC=##BINDING_STATIC##
+
+www:
+    hostname: www
+    domainname: ##DOMAIN##
+    environment: 
+        - NGINX_SERVER_NAME=##DOMAIN##
+
+db:
+    hostname: db
+    domainname: ##DOMAIN##
+    environment:
+        - POSTGRES_PASSWORD=##POSTGRES_PASSWORD##
+
+static:
+    volumes:
+        - ##BIND_STATIC##/srv/static

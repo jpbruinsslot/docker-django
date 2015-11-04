@@ -8,6 +8,10 @@ chown -R www-data:www-data /srv /run/uwsgi
 
 test ! -z ${DJANGO_PROJECT_NAME} && \
 sed -ri "s/##DJANGO_PROJECT_NAME##/${DJANGO_PROJECT_NAME}/" /etc/uwsgi/django-uwsgi.ini
+test ! -z ${DJANGO_THREADS} && \
+sed -ri "s/##DJANGO_THREADS##/${DJANGO_THREADS}/" /etc/uwsgi/django-uwsgi.ini
+test ! -z ${DJANGO_PROCESSES} && \
+sed -ri "s/##DJANGO_PROCESSES##/${DJANGO_PROCESSES}/" /etc/uwsgi/django-uwsgi.ini
 
 #####
 # Install python requirements
@@ -36,7 +40,11 @@ done
 # Django: syncdb
 python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 
-# Django: collectstatic
-python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
+#if [ ! "$(ls -A /srv/static)" ] # if empty
+if [[ $BINDING_STATIC == false ]]
+then
+    # Django: collectstatic
+    python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
+fi
 
-/usr/local/bin/uwsgi /etc/uwsgi/django-uwsgi.ini --uid 33 --gid 33
+/usr/local/bin/uwsgi --emperor --ini /etc/uwsgi/django-uwsgi.ini --uid www-data --gid www-data

@@ -1,7 +1,7 @@
 Docker Django
 -------------
 
-[![Circle CI](https://circleci.com/gh/erroneousboat/docker-django/tree/master.svg?style=shield)](https://circleci.com/gh/erroneousboat/docker-django/tree/master)
+[![Circle CI](https://circleci.com/gh/niieani/docker-django.svg?style=shield)](https://circleci.com/gh/niieani/docker-django)
 
 A project to get you started with Docker and Django. This is mainly made to
 serve as an example for you to hack on. I don't claim that this is the
@@ -10,8 +10,6 @@ suggestions, please fork the project, send a pull-request or create an issue.
 See the issues for the things I'm working on now.
 
 Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql
-
-The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
 
 ## Folder structure
 
@@ -25,8 +23,7 @@ $ tree -L 1 --dirsfirst
 ├── Dockerfile          # dockerfile for app container
 ├── docker-compose.yml  # docker-compose setup with container orchestration instructions
 ├── LICENSE             # license for this project
-├── README.md           # this file
-└── TODO.md             # issues currently worked on
+└── README.md           # this file
 
 ```
 
@@ -53,9 +50,12 @@ curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose
 Check the [github project](https://github.com/docker/docker-compose/releases) for new releases
 
 ### Django
-Create django project in the `code` folder or copy a project to the `code`
-folder or use the sample project enclosed in this project and go directly to
-the section 'Fire it up':
+
+First, copy your django project to the `projects` folder or create a fresh one,
+or use the sample project enclosed in this project.
+
+Since this project makes use of the docker-compose yml overrides to build up your instance, you'll need to create a.
+
 
 ```bash
 $ django-admin.py startproject <name_project>
@@ -79,7 +79,7 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '/srv/static-files'
+STATIC_ROOT = '/srv/static'
 ```
 
 ### Environment variables
