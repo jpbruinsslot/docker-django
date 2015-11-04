@@ -5,7 +5,7 @@
 #####
 
 app:
-    build: config/app
+    build: .
     volumes:
         - ./projects:/srv/django
         - /run/uwsgi
@@ -14,7 +14,6 @@ app:
     env_file: ./config/env
     environment:
         - POSTGRES_PASSWORD
-        - DJANGO_PROJECT_NAME
 
 www:
     build: config/nginx
@@ -36,3 +35,4 @@ db:
     env_file: ./config/env
     environment:
         - POSTGRES_PASSWORD
+        - PGDATA=/var/lib/postgresql/data/pgdata

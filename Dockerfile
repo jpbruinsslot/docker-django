@@ -22,17 +22,17 @@ RUN apt-get -y update && \
 ENV DJANGO_PROJECT_NAME ${DJANGO_PROJECT_NAME:-starter}
 
 # Install application requirements
-ADD ../../projects/$DJANGO_PROJECT_NAME/pip.txt /srv/config/requirements.txt
+ADD projects/$DJANGO_PROJECT_NAME/pip.txt /srv/config/requirements.txt
 RUN pip3 install -r /srv/config/requirements.txt
 
 # Add database check script
-ADD uwsgi/database-check.py /srv/config/database-check.py
+ADD config/uwsgi/database-check.py /srv/config/database-check.py
 
 #####
 # Add uWSGI config
 #####
-ADD uwsgi/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
-ADD uwsgi/setup.sh /srv/config/setup.sh
+ADD config/uwsgi/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+ADD config/uwsgi/setup.sh /srv/config/setup.sh
 
 #####
 # Create django user, will own the Django app

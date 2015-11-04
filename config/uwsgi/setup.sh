@@ -30,4 +30,4 @@ python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 # Django: collectstatic
 python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
 
-/usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini --uid 33
+/usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini --uid 33 --gid 33 --die-on-term
