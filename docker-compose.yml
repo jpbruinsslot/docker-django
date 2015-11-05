@@ -9,8 +9,6 @@ app:
     volumes_from:
         - static
         - socket
-    volumes:
-        - ./projects:/srv/django
     links:
         - db
     env_file: ./config/env

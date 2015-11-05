@@ -27,8 +27,9 @@ ADD config/uwsgi/setup.sh /srv/config/setup.sh
 ADD config/uwsgi/reload.sh /srv/config/reload.sh
 
 #####
-# Create django user, will own the Django app
+# www-data will own the Django app
 #####
+RUN mkdir -p /srv/django
 RUN chown -R www-data:www-data /srv /etc/uwsgi
 WORKDIR /srv
 

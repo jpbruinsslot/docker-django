@@ -5,6 +5,8 @@
 #####
 
 app:
+    volumes:
+        - ./projects/##PROJECT##:/srv/django/##PROJECT##
     hostname: app
     domainname: ##DOMAIN##
     environment:

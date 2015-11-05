@@ -163,3 +163,8 @@ $ service docker restart
 QUESTION: Changes in my code are not being updated despite using volumes.
 
 SOLUTION: Remember to restart uWSGI for the changes to take effect.
+
+## Contributors
+
+ - @erroneousboat - original project
+ - @niieani - multi-project architecture, LetsEncrypt implementation, 
