@@ -8,7 +8,7 @@ I don't claim that this is the correct way to setup a system with Django and Doc
 and if you have any suggestions, please fork the project, send a pull-request or create an issue.
 See the issues for the things I'm working on now.
 
-Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql
+Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql, LetsEncrypt
 
 ## Folder structure
 
@@ -53,18 +53,10 @@ Check the [github project](https://github.com/docker/docker-compose/releases) fo
 First, copy your django project to the `projects` folder or create a fresh one,
 or use the sample project enclosed in this project.
 
-Since this project makes use of the docker-compose yml overrides to build up your instance, you'll need to create a.
+Create a pip.txt file inside of your project main folder and specify the requirements of your project.
+See `starter` for an example.
 
-
-```bash
-$ django-admin.py startproject <name_project>
-```
-
-Edit `config/environment/env` file and add the name of your project at `DJANGO_PROJECT_NAME` or just leave it as is to start the default application.
-
-
-Edit the `settings.py` file with the correct database credentials and static
-root:
+Edit the `settings.py` file with the correct database credentials and static root:
 
 ```python
 DATABASES = {
@@ -110,6 +102,7 @@ $ ./compose PROJECT_NAME build --no-cache       # build without cache
 See processes:
 ```bash
 $ ./compose PROJECT_NAME ps         # docker-compose processes
+$ ./compose PROJECT_NAME logs       # watch logs
 $ docker ps -a                      # docker processes (sometimes needed)
 $ docker stats [container name]     # see live docker container metrics
 ```
@@ -147,7 +140,10 @@ docker rm $(docker ps -a -q)
 Remove all docker images:
 ```bash
 docker rmi $(docker images -q)
-```
+``` 
+
+## Hackability
+Each `docker-compose.PROJECT_NAME.yml` is an override file that defines your own project, meaning anything you put there merely adds on top of what's in `docker-compose.yml`.
 
 ## Troubleshooting
 QUESTION: I get the following error message when using the docker command:
