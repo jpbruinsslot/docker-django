@@ -23,8 +23,8 @@ www:
         - socket
         - cert
     volumes:
-        - ./config/nginx/default.crt:/etc/ssl/certs/default.crt
-        - ./config/nginx/default.key:/etc/ssl/private/default.key
+        - ./config/nginx/default.crt:/srv/config/fullchain.pem
+        - ./config/nginx/default.key:/srv/config/privkey.pem
     restart: always
 
 db:
