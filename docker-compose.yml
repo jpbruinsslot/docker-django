@@ -47,3 +47,5 @@ socket:
     volumes:
         - /run/uwsgi
 
+cert:
+    image: busybox
