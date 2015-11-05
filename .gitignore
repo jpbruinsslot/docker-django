@@ -57,4 +57,4 @@ target/
 projects/starter/passenger_wsgi.py
 
 docker-compose.*.yml
-!docker-compose.template.yml
+!docker-compose.template*.yml

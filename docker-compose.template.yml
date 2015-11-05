@@ -17,6 +17,10 @@ www:
     domainname: ##DOMAIN##
     environment: 
         - NGINX_SERVER_NAME=##DOMAIN##
+        - LETSENCRYPT=##LETSENCRYPT##
+    ports:
+        - "##HTTP_PORT##:80"
+        - "##HTTPS_PORT##:443"
 
 db:
     hostname: db
@@ -27,3 +31,4 @@ db:
 static:
     volumes:
         - ##BIND_STATIC##/srv/static
+

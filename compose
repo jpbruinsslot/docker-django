@@ -5,9 +5,17 @@ set -e
 PROJECT=$1
 shift
 
-if [[ $1 == shell ]]
+if [[ $1 == manage ]]
 then
-	docker exec -it ${PROJECT}_app_1 /usr/bin/python3 django/${PROJECT}/manage.py shell
+	shift
+	docker exec -it ${PROJECT}_app_1 /usr/bin/python3 django/${PROJECT}/manage.py "$@"
+	exit $?
+fi
+
+if [[ $1 == bash ]]
+then
+	shift
+	docker exec -it ${PROJECT}_app_1 bash "$@"
 	exit $?
 fi
 
@@ -19,3 +27,7 @@ then
 fi
 
 exec docker-compose -p $PROJECT -f ./docker-compose.yml -f ./docker-compose.$PROJECT.yml "$@"
+
+# TODO: add backup:
+# via http://docs.docker.com/engine/userguide/dockervolumes/#backup-restore-or-migrate-data-volumes
+# docker run --rm -it --volumes-from starter_cert_1 -v $(pwd):/backup ubuntu /bin/bash

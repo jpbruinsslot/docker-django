@@ -14,8 +14,6 @@ app:
     links:
         - db
     env_file: ./config/env
-    environment:
-        - POSTGRES_PASSWORD
     restart: always
 
 www:
@@ -23,12 +21,10 @@ www:
     volumes_from: 
         - static
         - socket
+        - cert
     volumes:
         - ./config/nginx/default.crt:/etc/ssl/certs/default.crt
         - ./config/nginx/default.key:/etc/ssl/private/default.key
-    ports:
-        - "9080:80"
-        - "9443:443"
     restart: always
 
 db:
@@ -36,8 +32,6 @@ db:
     volumes_from:
         - datastore
     env_file: ./config/env
-    environment:
-        - POSTGRES_PASSWORD
     restart: always
 
 datastore:
@@ -54,3 +48,4 @@ socket:
     image: busybox
     volumes:
         - /run/uwsgi
+

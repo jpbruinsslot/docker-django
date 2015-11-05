@@ -11,19 +11,56 @@ server {
     listen 80 default_server;
     server_name ##NGINX_SERVER_NAME##;
 
-    return 301 https://$http_host$request_uri;
+    location / {
+        return 301 https://$http_host$request_uri;
+    }
+    
+    include snippets/letsencrypt.conf;
+}
+
+
+# Rewrite all WWW to no-WWW
+server {
+    listen 80;
+    server_name www.##NGINX_SERVER_NAME##;
+
+    location / {
+        return 301 https://##NGINX_SERVER_NAME##$request_uri;
+    }
+    
+    include snippets/letsencrypt.conf;
+}
+
+# Rewrite all WWW to no-WWW
+server {
+    listen 443 ssl http2;
+    server_name www.##NGINX_SERVER_NAME##;
+
+    location / {
+        return 301 https://##NGINX_SERVER_NAME##$request_uri;
+    }
+    
+    #ssl_dhparam            ##CERT_PATH##/dhparam.pem;
+    ssl_trusted_certificate ##CERT_PATH##/fullchain.pem;
+    ssl_certificate         ##CERT_PATH##/fullchain.pem;
+    ssl_certificate_key     ##CERT_PATH##/privkey.pem;
+    
+    include snippets/letsencrypt.conf;
+    include snippets/ssl.conf;
 }
 
 server {
-    listen 443 ssl default_server;
+    listen 443 ssl http2 default_server;
     server_name ##NGINX_SERVER_NAME##;
 
     # see http://nginx.org/en/docs/http/configuring_https_servers.html
-    ssl_certificate /etc/ssl/certs/default.crt;
-    ssl_certificate_key /etc/ssl/private/default.key;
-
-    ssl_prefer_server_ciphers on;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # ie defaults minus SSLv3
+    # see https://michael.lustfield.net/nginx/getting-a-perfect-ssl-labs-score
+    # and https://community.centminmod.com/threads/letsencrypt-free-ssl-certificates-with-web-root-authentication-method.4635/
+    
+    #ssl_dhparam            ##CERT_PATH##/dhparam.pem;
+    ssl_trusted_certificate ##CERT_PATH##/fullchain.pem;
+    ssl_certificate         ##CERT_PATH##/fullchain.pem;
+    ssl_certificate_key     ##CERT_PATH##/privkey.pem;
 
     access_log /var/log/nginx/##NGINX_SERVER_NAME##.default.log;
 
@@ -40,6 +77,9 @@ server {
         uwsgi_param HTTP_X_FORWARDED_PROTOCOL $scheme; # see django settings
         uwsgi_pass unix:///run/uwsgi/django.socket;
     }
+    
+    include snippets/letsencrypt.conf;
+    include snippets/ssl.conf;
 }
 
 server_tokens off;

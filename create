@@ -14,6 +14,8 @@ if [ ! -e ./projects/$PROJECT/manage.py ]; then
 fi
 
 read -e -p "Domain: " -i "$DOMAIN" DOMAIN
+read -e -p "HTTP port: " -i "${HTTP_PORT:-80}" HTTP_PORT
+read -e -p "HTTPS port: " -i "${HTTPS_PORT:-443}" HTTPS_PORT
 echo "If you want to serve pregenerated /static folder instead of Django's collectstatic,"
 echo "then enter its directory relative to the project folder."
 read -e -p "Serve /static from path [empty for 'collectstatic']: " -i "$BIND_STATIC" BIND_STATIC
@@ -28,16 +30,33 @@ fi
 
 cp ./docker-compose.template.yml ./docker-compose.$PROJECT.yml
 
+if [[ $HTTP_PORT == 80 && $HTTPS_PORT == 443 ]]; then
+	read -p 'Would you like to enable LetsEncrypt for your domain? (y/n) ' -n 1 confirmation; echo                                                                                       
+	if [[ $confirmation == 'y' || $confirmation == 'Y' ]]; then
+		LETSENCRYPT=true
+		read -e -p "Key Recovery Email: " -i "$EMAIL" EMAIL
+		cat ./docker-compose.template.letsencrypt.yml >> ./docker-compose.$PROJECT.yml
+	else
+		LETSENCRYPT=false
+	fi
+fi
+
 function replace {
-  LC_ALL=C sed -i '' "s/$(echo $1 | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$(echo $2 | sed -e 's/[\/&]/\\&/g')/g" $3
+  case $(sed --help 2>&1) in
+    *GNU*) SED="sed -i" ;;
+    *) SED="sed -i ''" ;;
+  esac
+  LC_ALL=C $SED "s/$(echo $1 | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$(echo $2 | sed -e 's/[\/&]/\\&/g')/g" $3
 }
 
-VARS=( POSTGRES_PASSWORD DOMAIN PROJECT BIND_STATIC BINDING_STATIC )
+VARS=( POSTGRES_PASSWORD DOMAIN PROJECT BIND_STATIC BINDING_STATIC HTTP_PORT HTTPS_PORT LETSENCRYPT EMAIL )
 
 for var in "${VARS[@]}"
 do
 	replace "##${var}##" "${!var}" "./docker-compose.$PROJECT.yml"
 done
+
+
 
 echo "Success! You may use ./compose $PROJECT instead of docker-compose with parameters to reference your project directly."
 echo "For example:"
@@ -46,8 +65,11 @@ echo "./compose $PROJECT up -d"
 echo "./compose $PROJECT logs"
 echo "./compose $PROJECT ps"
 echo 
-echo "A special alias will let you enter django shell:"
-echo "./compose $PROJECT shell"
+echo "A special alias will let you enter django manage commands:"
+echo "./compose $PROJECT manage ..."
 echo
 echo "You can also reload Django and Nginx with:"
 echo "./compose $PROJECT reload"
+echo
+echo "Enter bash in the django container:"
+echo "./compose $PROJECT bash"
