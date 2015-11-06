@@ -14,7 +14,7 @@ dependencies:
     pre:
         - docker info
         - sudo pip install docker-compose --upgrade
-        - docker-compose up -d
+        - ./compose starter.ci up -d
 
 test:
     override:
