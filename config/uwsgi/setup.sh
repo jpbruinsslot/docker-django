@@ -22,7 +22,7 @@ pip3 install -r /srv/django/$DJANGO_PROJECT_NAME/pip.txt
 
 #####
 # Postgres: wait until container is created
-# 
+#
 # $?                most recent foreground pipeline exit status
 # > /dev/null 2>&1  get stderr while discarding stdout
 #####
@@ -47,4 +47,4 @@ then
     python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
 fi
 
-/usr/local/bin/uwsgi --emperor --ini /etc/uwsgi/django-uwsgi.ini --uid www-data --gid www-data
+exec /usr/local/bin/uwsgi --emperor --ini /etc/uwsgi/django-uwsgi.ini --uid www-data --gid www-data

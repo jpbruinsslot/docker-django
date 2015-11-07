@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM phusion/baseimage:latest
 
 #####
 # Install packages
@@ -22,8 +22,9 @@ ADD config/uwsgi/database-check.py /srv/config/database-check.py
 #####
 # Add uWSGI config
 #####
+RUN mkdir -p /etc/service/uwsgi
 ADD config/uwsgi/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
-ADD config/uwsgi/setup.sh /srv/config/setup.sh
+ADD config/uwsgi/setup.sh /etc/service/uwsgi/run
 ADD config/uwsgi/reload.sh /srv/config/reload.sh
 
 #####
@@ -33,4 +34,4 @@ RUN mkdir -p /srv/django
 RUN chown -R www-data:www-data /srv /etc/uwsgi
 WORKDIR /srv
 
-CMD /bin/bash /srv/config/setup.sh
+CMD ["/sbin/my_init"]
