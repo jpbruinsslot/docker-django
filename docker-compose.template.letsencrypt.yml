@@ -1,7 +1,7 @@
 cert:
-    image: quay.io/letsencrypt/letsencrypt:latest
+    build: ./docker-support/letsencrypt
     volumes:
         - ./persistent/letsencrypt:/etc/letsencrypt
         - /var/lib/letsencrypt
         - /srv/letsencrypt-webrootauth
-    command: --renew-by-default -a webroot --webroot-path /srv/letsencrypt-webrootauth --text --agree-tos --agree-dev-preview --email ##EMAIL## -d ##DOMAIN## -d www.##DOMAIN## auth
+    command: root certonly --renew-by-default -a webroot --webroot-path /srv/letsencrypt-webrootauth --text --agree-tos --agree-dev-preview --server https://acme-v01.api.letsencrypt.org/directory --email ##EMAIL## -d ##DOMAIN## -d www.##DOMAIN##

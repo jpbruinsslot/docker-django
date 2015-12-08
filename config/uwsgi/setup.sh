@@ -17,8 +17,10 @@ sed -ri "s/##DJANGO_PROCESSES##/${DJANGO_PROCESSES}/" /etc/uwsgi/django-uwsgi.in
 # Install python requirements
 #####
 
+echo "Ensuring dependencies are installed"
 # Install application requirements
 pip3 install -r /srv/django/$DJANGO_PROJECT_NAME/pip.txt
+echo "Dependencies ready"
 
 #####
 # Postgres: wait until container is created
@@ -38,6 +40,7 @@ done
 #####
 
 # Django: syncdb
+echo "Migrating the DB"
 python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 
 #if [ ! "$(ls -A /srv/static)" ] # if empty
@@ -47,4 +50,5 @@ then
     python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
 fi
 
-exec /usr/local/bin/uwsgi --emperor --ini /etc/uwsgi/django-uwsgi.ini --uid www-data --gid www-data
+echo "Launching the app"
+exec /usr/local/bin/uwsgi --emperor /etc/uwsgi --uid www-data --gid www-data

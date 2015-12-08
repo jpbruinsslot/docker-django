@@ -14,10 +14,6 @@ if [[ ! -e /srv/cert_installed ]]; then
 	
 	if [[ $LETSENCRYPT == true ]]; then
 		# REPLACE WITH LETSENCRYPT CERT:
-		mkdir -p /etc/letsencrypt/webrootauth
-		chmod 666 /etc/letsencrypt/webrootauth
-		chown www-data:www-data /etc/letsencrypt/webrootauth
-	
 		{
 			sleep 3
 			pattern="/etc/letsencrypt/live/${NGINX_SERVER_NAME}*"

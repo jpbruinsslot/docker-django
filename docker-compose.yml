@@ -11,6 +11,10 @@ app:
         - socket
     links:
         - db
+    log_driver: "json-file"
+    log_opt:
+        max-size: "10k"
+        max-file: "20"
     env_file: ./config/env
     restart: always
 

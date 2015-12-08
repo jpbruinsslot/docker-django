@@ -26,6 +26,13 @@ then
 	exit $?
 fi
 
+if [[ $1 == upgrade ]]
+then
+	docker-compose -p $PROJECT -f ./docker-compose.yml -f ./docker-compose.$PROJECT.yml build
+	docker-compose -p $PROJECT -f ./docker-compose.yml -f ./docker-compose.$PROJECT.yml up -d
+	exit $?
+fi
+
 exec docker-compose -p $PROJECT -f ./docker-compose.yml -f ./docker-compose.$PROJECT.yml "$@"
 
 # TODO: add backup:

@@ -59,3 +59,5 @@ projects/starter/passenger_wsgi.py
 docker-compose.*.yml
 !docker-compose.template*.yml
 !docker-compose.*.ci.yml
+
+.remote-sync.json
