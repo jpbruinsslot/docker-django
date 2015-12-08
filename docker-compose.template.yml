@@ -1,0 +1,30 @@
+#####
+# Docker compose YAML file overriding docker-compose.yml
+#
+# For documentation see: https://docs.docker.com/compose/yml/
+#####
+
+app:
+    volumes:
+        - ./projects/##PROJECT##:/srv/django/##PROJECT##
+    hostname: app
+    domainname: ##DOMAIN##
+    environment:
+        - POSTGRES_PASSWORD=##POSTGRES_PASSWORD##
+        - DJANGO_PROJECT_NAME=##PROJECT##
+
+www:
+    hostname: www
+    domainname: ##DOMAIN##
+    environment: 
+        - NGINX_SERVER_NAME=##DOMAIN##
+        - LETSENCRYPT=##LETSENCRYPT##
+    ports:
+        - "##HTTP_PORT##:80"
+        - "##HTTPS_PORT##:443"
+
+db:
+    hostname: db
+    domainname: ##DOMAIN##
+    environment:
+        - POSTGRES_PASSWORD=##POSTGRES_PASSWORD##

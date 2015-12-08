@@ -1,19 +1,14 @@
 Docker Django
 -------------
 
-[![Circle CI](https://circleci.com/gh/erroneousboat/docker-django/tree/master.svg?style=shield)](https://circleci.com/gh/erroneousboat/docker-django/tree/master)
+[![Circle CI](https://circleci.com/gh/niieani/docker-django.svg?style=shield)](https://circleci.com/gh/niieani/docker-django)
 
-A project to get you started with Docker and Django. This is mainly made to
-serve as an example for you to hack on. I don't claim that this is the
-correct way to setup a system with Django and Docker, and if you have any
-suggestions, please fork the project, send a pull-request or create an issue.
+A production-quality, hackable project to get you started with Docker and Django. 
+I don't claim that this is the correct way to setup a system with Django and Docker, 
+and if you have any suggestions, please fork the project, send a pull-request or create an issue.
 See the issues for the things I'm working on now.
 
-This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
-
-Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql
-
-The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
+Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql, LetsEncrypt
 
 ## Folder structure
 
@@ -27,8 +22,7 @@ $ tree -L 1 --dirsfirst
 ├── Dockerfile          # dockerfile for app container
 ├── docker-compose.yml  # docker-compose setup with container orchestration instructions
 ├── LICENSE             # license for this project
-├── README.md           # this file
-└── TODO.md             # issues currently worked on
+└── README.md           # this file
 
 ```
 
@@ -49,25 +43,20 @@ Install [docker compose](https://github.com/docker/compose):
 $ pip install docker-compose
 
 # or install via curl
-curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
 ```
 
 Check the [github project](https://github.com/docker/docker-compose/releases) for new releases
 
 ### Django
-Create django project in the `code` folder or copy a project to the `code`
-folder or use the sample project enclosed in this project and go directly to
-the section 'Fire it up':
 
-```bash
-$ django-admin.py startproject <name_project>
-```
+First, copy your django project to the `projects` folder or create a fresh one,
+or use the sample project enclosed in this project.
 
-Edit `config/environment/env` file and add the name of your project at `DJANGO_PROJECT_NAME` or just leave it as is to start the default application.
+Create a pip.txt file inside of your project main folder and specify the requirements of your project.
+See `starter` for an example.
 
-
-Edit the `settings.py` file with the correct database credentials and static
-root:
+Edit the `settings.py` file with the correct database credentials and static root:
 
 ```python
 DATABASES = {
@@ -81,75 +70,69 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '/srv/static-files'
+STATIC_ROOT = '/srv/static'
 ```
 
-### Phusion ssh (optional)
-The phusion baseimage gives us the possibility to access the container through
-ssh. Read their motives for this 
-[here](https://github.com/phusion/baseimage-docker#login_ssh).
+### Creating a project
 
-This project uses their `insecure_key` located in the `config/ssh/` folder to 
-access the container. You can also add your own public key to this folder and 
-use it to access the container. How to do this, read the section 
-`Phusion: enable ssh access to container` in the `Dockerfile`.
+Once you've put your Django project into the `projects` folder, invoke:
+```bash
+$ ./create PROJECT_NAME
+```
 
-### Environment variables
-The file `config/environment/env` contains the environment variables needed in
-the containers. You can edit this as you see fit, and at the moment these are
-the defaults that this project uses. However when you intend to use this, keep
-in mind that you should keep this file out of version control as it can hold
-sensitive information regarding your project. The file itself will contain
-some commentary on how a variable will be used in the container.
+This will start a small script which will guide you in creating an override file that's required to build your new project.
+
+### Environment variables and settings
+Once it's created, you may modify available variables inside of your new `docker-compose.PROJECT.yml` override file.
 
 ## Fire it up
 Start the container by issuing one of the following commands:
 ```bash
-$ docker-compose up             # run in foreground
-$ docker-compose up -d          # run in background
+$ ./compose PROJECT_NAME up             # run in foreground
+$ ./compose PROJECT_NAME up -d          # run in background
 ```
 
 ## Other commands
 Build images:
 ```bash
-$ docker-compose build
-$ docker-compose build --no-cache       # build without cache
+$ ./compose PROJECT_NAME build
+$ ./compose PROJECT_NAME build --no-cache       # build without cache
 ```
 
 See processes:
 ```bash
-$ docker-compose ps                 # docker-compose processes
+$ ./compose PROJECT_NAME ps         # docker-compose processes
+$ ./compose PROJECT_NAME logs       # watch logs
 $ docker ps -a                      # docker processes (sometimes needed)
 $ docker stats [container name]     # see live docker container metrics
 ```
 
-Run commands in container:
+Run commands in the existing Django container:
+
 ```bash
-# Name of service is the name you gave it in the docker-compose.yml
+# A special alias will let you enter Django manage commands:
+$ ./compose $PROJECT manage ...
+
+# You can also reload Django and Nginx with:
+$ ./compose $PROJECT reload
+
+# Enter bash in the Django container:
+$ ./compose $PROJECT bash
+```
+
+Run commands in new containers of other services:
+```bash
+# Name of service is the name from docker-compose*.yml
 $ docker-compose run [service_name] /bin/bash
-$ docker-compose run [service_name] python manage.py shell
 $ docker-compose run [service_name] env                         # env vars
 ```
 
-Take note that this will spin up entirely new containers for your code
+Take note these last 2 commands will spin up entirely new containers for your code
 but only if the containers are not up already, in which case they are linked
-to that (running) container. To initiate a command in an existing running
-container you'll have two methods, either by using the `docker exec` tool
-or through ssh.
+to that (running) container. To initiate a command in existing running
+container (other than `app`) you'll need to do it manually by using the `docker exec` tool.
 
-Using the docker exec tool for restarting uwsgi in a running container.
-```bash
-# Find container_name by using docker-compose ps
-$ docker exec [container_name] sv restart uwsgi 
-```
-
-SSH into container (see also: Phusion ssh):
-```bash
-# Find container_name by using docker-compose ps
-python utils/ssh.py [container_name] [optional_ssh_key]
-```
-
-Remove all docker containers:
+Remove all docker containers (use with care!):
 ```bash
 docker rm $(docker ps -a -q)
 ```
@@ -157,7 +140,10 @@ docker rm $(docker ps -a -q)
 Remove all docker images:
 ```bash
 docker rmi $(docker images -q)
-```
+``` 
+
+## Hackability
+Each `docker-compose.PROJECT_NAME.yml` is an override file that defines your own project, meaning anything you put there merely adds on top of what's in `docker-compose.yml`.
 
 ## Troubleshooting
 QUESTION: I get the following error message when using the docker command:
@@ -177,3 +163,8 @@ $ service docker restart
 QUESTION: Changes in my code are not being updated despite using volumes.
 
 SOLUTION: Remember to restart uWSGI for the changes to take effect.
+
+## Contributors
+
+ - @erroneousboat - original project
+ - @niieani - multi-project architecture, LetsEncrypt implementation, 

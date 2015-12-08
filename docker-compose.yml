@@ -4,26 +4,52 @@
 # For documentation see: https://docs.docker.com/compose/yml/
 #####
 
+app:
+    build: .
+    volumes_from:
+        - static
+        - socket
+    links:
+        - db
+    log_driver: "json-file"
+    log_opt:
+        max-size: "10k"
+        max-file: "20"
+    env_file: ./config/env
+    restart: always
+
+www:
+    build: config/nginx
+    volumes_from: 
+        - static
+        - socket
+        - cert
+    volumes:
+        - ./config/nginx/default.crt:/srv/config/fullchain.pem
+        - ./config/nginx/default.key:/srv/config/privkey.pem
+    restart: always
+
+db:
+    image: postgres:latest
+    volumes_from:
+        - datastore
+    env_file: ./config/env
+    restart: always
+
 datastore:
     image: busybox
     volumes:
-        - /opt/django-app/psql:/usr/local/pgsql/data
+        - /var/lib/postgresql/data
 
-db:
-    image: postgres
-    volumes_from:
-        - datastore
-    env_file:
-        - config/environment/env
-
-app:
-    build: .
+static:
+    image: busybox
     volumes:
-        - ./code:/srv/django
-    ports:
-        - "9080:80"
-        - "9443:443"
-    links:
-        - db
-    env_file:
-        - ./config/environment/env
+        - /srv/static
+
+socket:
+    image: busybox
+    volumes:
+        - /run/uwsgi
+
+cert:
+    image: busybox

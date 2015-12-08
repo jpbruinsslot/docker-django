@@ -15,11 +15,11 @@
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
 
-# Specify the name of the database, name and the password of the database user
+# Specify the name of the database and name of the database user
 POSTGRES_NAME=postgres
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=mysecretpassword
 
+PGDATA=/var/lib/postgresql/data/pgdata
 
 #####
 # Django
@@ -28,17 +28,5 @@ POSTGRES_PASSWORD=mysecretpassword
 # The name of the Django project, this is used in the files django-uwsgi.ini
 # and setup.sh
 DJANGO_PROJECT_NAME=starter
-
-
-#####
-# Nginx
-#####
-
-# Server name used in nginx.tmpl
-NGINX_SERVER_NAME=localhost
-
-# Here you can specify the location of your SSL/TLS certificate and key.
-# This will be specified in the nginx.j2 When empty it uses the default 
-# self-signed certificate provided by this project
-NGINX_CRT_NAME
-NGINX_KEY_NAME
+DJANGO_THREADS=10
+DJANGO_PROCESSES=2
