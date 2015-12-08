@@ -1,5 +1,5 @@
 cert:
-    build: ./docker-support/letsencrypt
+    build: ./config/letsencrypt
     volumes:
         - ./persistent/letsencrypt:/etc/letsencrypt
         - /var/lib/letsencrypt

@@ -60,4 +60,4 @@ docker-compose.*.yml
 !docker-compose.template*.yml
 !docker-compose.*.ci.yml
 
-.remote-sync.json
+.*-sync.json
