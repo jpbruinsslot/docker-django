@@ -40,7 +40,6 @@ server {
         return 301 https://##NGINX_SERVER_NAME##$request_uri;
     }
     
-    #ssl_dhparam            ##CERT_PATH##/dhparam.pem;
     ssl_trusted_certificate ##CERT_PATH##/fullchain.pem;
     ssl_certificate         ##CERT_PATH##/fullchain.pem;
     ssl_certificate_key     ##CERT_PATH##/privkey.pem;
@@ -57,7 +56,6 @@ server {
     # see https://michael.lustfield.net/nginx/getting-a-perfect-ssl-labs-score
     # and https://community.centminmod.com/threads/letsencrypt-free-ssl-certificates-with-web-root-authentication-method.4635/
     
-    #ssl_dhparam            ##CERT_PATH##/dhparam.pem;
     ssl_trusted_certificate ##CERT_PATH##/fullchain.pem;
     ssl_certificate         ##CERT_PATH##/fullchain.pem;
     ssl_certificate_key     ##CERT_PATH##/privkey.pem;

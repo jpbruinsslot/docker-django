@@ -12,7 +12,6 @@ app:
     environment:
         - POSTGRES_PASSWORD=##POSTGRES_PASSWORD##
         - DJANGO_PROJECT_NAME=##PROJECT##
-        - BINDING_STATIC=##BINDING_STATIC##
 
 www:
     hostname: www
@@ -29,8 +28,3 @@ db:
     domainname: ##DOMAIN##
     environment:
         - POSTGRES_PASSWORD=##POSTGRES_PASSWORD##
-
-static:
-    volumes:
-        - ##BIND_STATIC##/srv/static
-

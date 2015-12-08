@@ -43,12 +43,8 @@ done
 echo "Migrating the DB"
 python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py migrate
 
-#if [ ! "$(ls -A /srv/static)" ] # if empty
-if [[ $BINDING_STATIC == false ]]
-then
-    # Django: collectstatic
-    python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
-fi
+# Django: collectstatic
+python3 /srv/django/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput
 
 echo "Launching the app"
 exec /usr/local/bin/uwsgi --emperor /etc/uwsgi --uid www-data --gid www-data
