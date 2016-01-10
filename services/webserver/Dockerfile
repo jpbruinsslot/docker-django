@@ -5,7 +5,7 @@ ADD ./services/webserver/config/start.sh /
 RUN chmod +x start.sh
 
 # Add template application
-ADD ./config/utils/template/bin/template /usr/local/bin/template
+ADD ./config/utils/template/template /usr/local/bin/template
 RUN chmod +x /usr/local/bin/template
 
 # Add nginx config file
