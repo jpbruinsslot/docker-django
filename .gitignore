@@ -53,5 +53,5 @@ docs/_build/
 # PyBuilder
 target/
 
-# Django starter
-code/starter/passenger_wsgi.py
+# Vim
+.ropeproject
