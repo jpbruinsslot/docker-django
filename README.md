@@ -3,33 +3,40 @@ Docker Django
 
 [![Circle CI](https://circleci.com/gh/erroneousboat/docker-django/tree/master.svg?style=shield)](https://circleci.com/gh/erroneousboat/docker-django/tree/master)
 
-A project to get you started with Docker and Django. This is mainly made to
+## tl;dr
+```bash
+$ git clone git@github.com:erroneousboat/docker-django.git
+$ docker-compose up
+```
+
+A project to get you started with Docker and Django. This is made to
 serve as an example for you to hack on. I don't claim that this is the
 correct way to setup a system with Django and Docker, and if you have any
 suggestions, please fork the project, send a pull-request or create an issue.
 See the issues for the things I'm working on now.
 
-This project uses [baseimage-docker](https://github.com/phusion/baseimage-docker) provided by [phusion](http://www.phusion.nl).
+Stack and version numbers used:
 
-Stack that is being used: Docker, Docker Compose, Nginx, Django, uWSGI, Postgresql
+- Docker                1.8.0
+- Docker Compose        1.5.2
+- Nginx                 1.9.6
+- PostgreSQL            9.4
+- Django                1.9.1
+- uWSGI                 2.0.11.1
 
-The branch [passenger-docker](https://github.com/erroneousboat/docker-django/tree/passenger-docker) uses [Phusion passenger](https://www.phusionpassenger.com/) instead of uWSGI.
 
 ## Folder structure
 
 ```
 $ tree -L 1 --dirsfirst
 .
-├── code                # main application code
-├── config              # config files
-├── utils               # useful scripts
+├── config              # files needed for configuration
+├── services            # services that support the webapp
+├── webapp              # actual webapp
 ├── circle.yml          # circle ci setup file
-├── Dockerfile          # dockerfile for app container
 ├── docker-compose.yml  # docker-compose setup with container orchestration instructions
 ├── LICENSE             # license for this project
-├── README.md           # this file
-└── TODO.md             # issues currently worked on
-
+└── README.md           # this file
 ```
 
 ## Setting up
@@ -41,29 +48,33 @@ Install [docker](https://docker.io) for ubuntu:
 $ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 ```
 
-### Docker Compose (previously Fig)
-Install [docker compose](https://github.com/docker/compose):
+### Docker Compose
+Install [docker compose](https://github.com/docker/compose), see installation
+instructions at [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/):
 
 ```bash
 # Install with PyPi
 $ pip install docker-compose
 
 # or install via curl
-curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose; chmod +x /usr/local/bin/docker-compose
+$ curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 ```
 
 Check the [github project](https://github.com/docker/docker-compose/releases) for new releases
 
 ### Django
-Create django project in the `code` folder or copy a project to the `code`
+Create django project in the `webapp` folder or copy a project to the `webapp`
 folder or use the sample project enclosed in this project and go directly to
 the section 'Fire it up':
 
 ```bash
-$ django-admin.py startproject <name_project>
+# be sure your have Django installed on your system
+$ django-admin startproject <name_project>
 ```
 
-Edit `config/environment/env` file and add the name of your project at `DJANGO_PROJECT_NAME` or just leave it as is to start the default application.
+Edit `config/environment/development.env` file and add the name of your
+project at `DJANGO_PROJECT_NAME` or just leave it as is to start the default
+application.
 
 
 Edit the `settings.py` file with the correct database credentials and static
@@ -84,23 +95,14 @@ DATABASES = {
 STATIC_ROOT = '/srv/static-files'
 ```
 
-### Phusion ssh (optional)
-The phusion baseimage gives us the possibility to access the container through
-ssh. Read their motives for this 
-[here](https://github.com/phusion/baseimage-docker#login_ssh).
-
-This project uses their `insecure_key` located in the `config/ssh/` folder to 
-access the container. You can also add your own public key to this folder and 
-use it to access the container. How to do this, read the section 
-`Phusion: enable ssh access to container` in the `Dockerfile`.
-
 ### Environment variables
-The file `config/environment/env` contains the environment variables needed in
-the containers. You can edit this as you see fit, and at the moment these are
-the defaults that this project uses. However when you intend to use this, keep
-in mind that you should keep this file out of version control as it can hold
-sensitive information regarding your project. The file itself will contain
-some commentary on how a variable will be used in the container.
+The file `config/environment/development.env` contains the environment
+variables needed in the containers. You can edit this as you see fit, and at
+the moment these are the defaults that this project uses. However when you
+intend to use this, keep in mind that you should keep this file out of version
+control as it can hold sensitive information regarding your project. The file
+itself will contain some commentary on how a variable will be used in the
+container.
 
 ## Fire it up
 Start the container by issuing one of the following commands:
@@ -131,24 +133,6 @@ $ docker-compose run [service_name] python manage.py shell
 $ docker-compose run [service_name] env                         # env vars
 ```
 
-Take note that this will spin up entirely new containers for your code
-but only if the containers are not up already, in which case they are linked
-to that (running) container. To initiate a command in an existing running
-container you'll have two methods, either by using the `docker exec` tool
-or through ssh.
-
-Using the docker exec tool for restarting uwsgi in a running container.
-```bash
-# Find container_name by using docker-compose ps
-$ docker exec [container_name] sv restart uwsgi 
-```
-
-SSH into container (see also: Phusion ssh):
-```bash
-# Find container_name by using docker-compose ps
-python utils/ssh.py [container_name] [optional_ssh_key]
-```
-
 Remove all docker containers:
 ```bash
 docker rm $(docker ps -a -q)
@@ -159,21 +143,57 @@ Remove all docker images:
 docker rmi $(docker images -q)
 ```
 
+### Some commands for managing the webapp
+To initiate a command in an existing running container use the `docker exec`
+command.
+
+```bash
+# Find container_name by using docker-compose ps
+
+# restart uwsgi in a running container.
+$ docker exec [container_name] touch /etc/uwsgi/reload-uwsgi.ini
+
+# create migration file for an app
+$ docker exec -it [container-name] \
+    python /srv/[project-name]/manage.py makemigrations scheduler
+
+# migrate
+$ docker exec -it [container-name] \
+    python3 /srv/[project-name]/manage.py migrate
+
+# get sql contents of a migration
+$ docker exec -it [container-name] \
+    python3 /srv/[project-name]/manage.py sqlmigrate [appname] 0001
+
+# get to interactive console
+$ docker exec -it [container-name] \
+    python3 /srv/[project-name]/manage.py shell
+
+# testing
+docker exec [container-name] \
+    python3 /srv/[project-name]/manage.py test
+```
+
 ## Troubleshooting
-QUESTION: I get the following error message when using the docker command:
+Q: I get the following error message when using the docker command:
 
 ```
 FATA[0000] Get http:///var/run/docker.sock/v1.16/containers/json: dial unix /var/run/docker.sock: permission denied. Are you trying to connect to a TLS-enabled daemon without TLS? 
 
 ```
 
-SOLUTION: Add yourself (user) to the docker group, remember to re-log after!
+A: Add yourself (user) to the docker group, remember to re-log after!
 
 ```bash
 $ usermod -a -G docker <your_username>
 $ service docker restart
 ```
 
-QUESTION: Changes in my code are not being updated despite using volumes.
+Q: Changes in my code are not being updated despite using volumes.
 
-SOLUTION: Remember to restart uWSGI for the changes to take effect.
+A: Remember to restart uWSGI for the changes to take effect.
+
+```bash
+# Find container_name by using docker-compose ps
+$ docker exec [container_name] touch /etc/uwsgi/reload-uwsgi.ini
+```

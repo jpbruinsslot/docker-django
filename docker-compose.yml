@@ -4,26 +4,35 @@
 # For documentation see: https://docs.docker.com/compose/yml/
 #####
 
-datastore:
-    image: busybox
-    volumes:
-        - /opt/django-app/psql:/usr/local/pgsql/data
-
 db:
-    image: postgres
-    volumes_from:
-        - datastore
-    env_file:
-        - config/environment/env
-
-app:
-    build: .
+    image: postgres:9.4
     volumes:
-        - ./code:/srv/django
+        - /opt/starter/psql:/var/lib/postgresql/data/pgdata
+    env_file:
+        - ./config/environment/development.env
+
+webserver:
+    build: .
+    dockerfile: ./services/webserver/Dockerfile
     ports:
         - "9080:80"
         - "9443:443"
     links:
+        - webapp
+    volumes_from:
+        - webapp
+    env_file:
+        - ./config/environment/development.env
+
+webapp:
+    build: .
+    dockerfile: ./webapp/Dockerfile
+    volumes:
+        - ./webapp/starter:/srv/starter
+        - /srv/static-files
+    expose:
+        - "8000"
+    links:
         - db
     env_file:
-        - ./config/environment/env
+        - ./config/environment/development.env
