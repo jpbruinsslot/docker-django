@@ -7,6 +7,8 @@ Docker Django
 ```bash
 $ git clone git@github.com:erroneousboat/docker-django.git
 $ docker-compose up
+# the application is now available at:
+# https://localhost:9443 and http://localhost:9080
 ```
 
 A project to get you started with Docker and Django. This is made to
@@ -17,13 +19,13 @@ See the issues for the things I'm working on now.
 
 Stack and version numbers used:
 
-- Docker                1.8.0
-- Docker Compose        1.5.2
-- Nginx                 1.9.6
-- PostgreSQL            9.4
-- Django                1.9.1
-- uWSGI                 2.0.11.1
-
+| Name           | Version |
+|----------------|---------|
+| Docker         | 1.11.1  |
+| Docker Compose | 1.7.1   |
+| Nginx          | 1.10    |
+| Postgresql     | 9.5.2   |
+| uWSGI          | 2.0.12  |
 
 ## Folder structure
 
@@ -42,7 +44,7 @@ $ tree -L 1 --dirsfirst
 ## Setting up
 
 ### Docker
-Install [docker](https://docker.io) for ubuntu:
+See installation instructions at: [docker documentation](https://docs.docker.com)
 
 ```bash
 $ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
@@ -57,7 +59,8 @@ instructions at [https://docs.docker.com/compose/install/](https://docs.docker.c
 $ pip install docker-compose
 
 # or install via curl
-$ curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 ```
 
 Check the [github project](https://github.com/docker/docker-compose/releases) for new releases

@@ -1,4 +1,4 @@
-FROM nginx:1.9.6
+FROM nginx:1.10
 
 # Add start script
 ADD ./services/webserver/config/start.sh /

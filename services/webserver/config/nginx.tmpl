@@ -50,7 +50,6 @@ http {
             include /etc/nginx/mime.types;
         }
 
-        # location = /sitemap.xml { root /srv/www/bruinsslot.jp; }
         location = /robots.txt { return 200 "User-agent: *\nAllow: /"; }
         location = /favicon.ico { access_log off; log_not_found off; return 404; }
         

@@ -24,4 +24,4 @@ test:
 # Running tests 'inside' container
 # test:
 #   override:
-#     - ./fig run -d app python /srv/django/starter/manage.py test
+#     - ./docker-compose run -d app python /srv/django/starter/manage.py test
