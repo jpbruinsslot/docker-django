@@ -14,6 +14,7 @@ dependencies:
     pre:
         - docker info
         - sudo pip install docker-compose --upgrade
+    post:
         - docker-compose up -d
 
 test:
