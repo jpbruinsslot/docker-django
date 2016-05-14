@@ -22,23 +22,18 @@ http {
     server {
         # rewrite all HTTP to HTTPS
         listen 80 default_server;
-        server_name {{ .Env.NGINX_SERVER_NAME }};
+        server_name ${NGINX_SERVER_NAME};
 
         return 301 https://$http_host$request_uri;
     }
 
     server {
         listen 443 ssl default_server;
-        server_name {{ .Env.NGINX_SERVER_NAME }};
+        server_name ${NGINX_SERVER_NAME};
 
         # see http://nginx.org/en/docs/http/configuriNGINX_https_servers.html
-        {{if .Env.NGINX_CRT_NAME}}
-            ssl_certificate /etc/ssl/certs/{{ .Env.NGINX_CRT_NAME }};
-            ssl_certificate_key /etc/ssl/private/{{ .Env.NGINX_KEY_NAME }};
-        {{else}}
-            ssl_certificate /etc/ssl/certs/localhost.crt;
-            ssl_certificate_key /etc/ssl/private/localhost.key;
-        {{end}}
+        ssl_certificate /etc/ssl/certs/${NGINX_CRT_NAME}.crt;
+        ssl_certificate_key /etc/ssl/private/${NGINX_KEY_NAME}.key;
 
         ssl_prefer_server_ciphers on;
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # ie defaults minus SSLv3
@@ -58,9 +53,8 @@ http {
         location ~ ~$           { access_log off; log_not_found off; deny all; }
 
         location / {
-            uwsgi_pass      django;
-            include         uwsgi_params;
-            uwsgi_param     HTTP_X_FORWARDED_PROTOCOL $scheme; # see django settings
+            uwsgi_pass django;
+            include uwsgi_params;
         }
     }
 }

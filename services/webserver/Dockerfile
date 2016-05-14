@@ -4,10 +4,6 @@ FROM nginx:1.10
 ADD ./services/webserver/config/start.sh /
 RUN chmod +x start.sh
 
-# Add template application
-ADD ./config/utils/template/template /usr/local/bin/template
-RUN chmod +x /usr/local/bin/template
-
 # Add nginx config file
 ADD ./services/webserver/config/nginx.tmpl /
 
