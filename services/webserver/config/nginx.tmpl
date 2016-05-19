@@ -53,8 +53,8 @@ http {
         location ~ ~$           { access_log off; log_not_found off; deny all; }
 
         location / {
-            uwsgi_pass django;
-            include uwsgi_params;
+            uwsgi_pass      django;
+            include         uwsgi_params;
         }
     }
 }

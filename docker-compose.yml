@@ -18,8 +18,8 @@ services:
             context: .
             dockerfile: services/webserver/Dockerfile
         ports:
-            - "9080:80"
-            - "9443:443"
+            - "80:80"
+            - "443:443"
         depends_on:
             - webapp
         volumes_from:

@@ -7,7 +7,7 @@ Docker Django
 ```bash
 $ git clone git@github.com:erroneousboat/docker-django.git
 $ docker-compose up
-# the application is now available at: https://localhost:9443
+# the application is now available at: https://localhost
 ```
 
 A project to get you started with Docker and Django. This is made to
