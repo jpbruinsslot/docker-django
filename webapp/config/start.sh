@@ -1,9 +1,4 @@
-#! /bin/bash
-
-# Removed "set -e" because the script database-check.py returns a sys.exit(1)
-# when it can't connect to the database. Otherwise this script will exit with
-# an error code and the creation of the container will stop
-
+#!/bin/bash
 
 #####
 # Postgres: wait until container is created
@@ -11,16 +6,18 @@
 # $?                most recent foreground pipeline exit status
 # > /dev/null 2>&1  get stderr while discarding stdout
 #####
+set -e
 python3 /srv/config/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
     sleep 5; echo "*** Waiting for postgres container ..."
     python3 /srv/config/database-check.py > /dev/null 2>&1
 done
+set +e
 
 #####
 # Django setup
 #####
-if [ "$PRODUCTION" = "true" ]; then
+if [ "$PRODUCTION" == "true" ]; then
     # Django: migrate
     #
     # Django will see that the tables for the initial migrations already exist
@@ -36,8 +33,7 @@ if [ "$PRODUCTION" = "true" ]; then
     # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     echo "==> Django setup, executing: collectstatic"
     python3 /srv/${DJANGO_PROJECT_NAME}/manage.py collectstatic --noinput -v 3
-
-else:
+else
     # Django: reset database
     # https://docs.djangoproject.com/en/1.9/ref/django-admin/#flush
     #
