@@ -7,8 +7,10 @@ Docker Django
 ```bash
 $ git clone git@github.com:erroneousboat/docker-django.git
 $ docker-compose up
-# the application is now available at: https://localhost
 ```
+
+Now you can access the application at <https://localhost> and the admin site
+at <https://localhost/admin>.
 
 A project to get you started with Docker and Django. This is made to
 serve as an example for you to hack on. I don't claim that this is the
@@ -70,7 +72,7 @@ folder or use the sample project enclosed in this project and go directly to
 the section 'Fire it up':
 
 ```bash
-# be sure your have Django installed on your system
+# be sure you have Django installed on your system
 $ django-admin startproject <name_project>
 ```
 
