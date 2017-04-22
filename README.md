@@ -20,11 +20,11 @@ Stack and version numbers used:
 
 | Name           | Version |
 |----------------|---------|
-| Docker         | 1.11.1  |
-| Docker Compose | 1.7.1   |
-| Nginx          | 1.10    |
-| Postgresql     | 9.5.2   |
-| uWSGI          | 2.0.12  |
+| Docker         | 1.13.0  |
+| Docker Compose | 1.8.0   |
+| Nginx          | 1.11    |
+| Postgresql     | 9.6     |
+| uWSGI          | 2.0.15  |
 
 ## Folder structure
 
@@ -131,8 +131,8 @@ Run commands in container:
 ```bash
 # Name of service is the name you gave it in the docker-compose.yml
 $ docker-compose run [service_name] /bin/bash
-$ docker-compose run [service_name] python manage.py shell
-$ docker-compose run [service_name] env                         # env vars
+$ docker-compose run [service_name] python /srv/starter/manage.py shell
+$ docker-compose run [service_name] env
 ```
 
 Remove all docker containers:

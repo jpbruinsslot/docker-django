@@ -7,7 +7,7 @@
 version: "2"
 services:
     db:
-        image: postgres:9.5.2
+        image: postgres:9.6
         volumes:
             - /opt/starter/psql:/var/lib/postgresql/data/pgdata
         env_file:
