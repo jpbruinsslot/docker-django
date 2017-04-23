@@ -21,10 +21,10 @@ http {
 
     server {
         # rewrite all HTTP to HTTPS
-        listen 80 default_server;
+        listen 80;
         server_name ${NGINX_SERVER_NAME};
 
-        return 301 https://$http_host$request_uri;
+        return 301 https://${NGINX_SERVER_NAME}$request_uri;
     }
 
     server {

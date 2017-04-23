@@ -129,6 +129,15 @@ $ docker ps -a                      # docker processes (sometimes needed)
 $ docker stats [container name]     # see live docker container metrics
 ```
 
+See logs:
+```bash
+# See logs of all services
+$ docker-compose logs
+
+# See logs of a specific service
+$ docker-compose logs -f [service_name]
+```
+
 Run commands in container:
 ```bash
 # Name of service is the name you gave it in the docker-compose.yml
