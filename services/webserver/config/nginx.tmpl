@@ -24,7 +24,7 @@ http {
         listen 80;
         server_name ${NGINX_SERVER_NAME};
 
-        return 301 https://${NGINX_SERVER_NAME}$request_uri;
+        return 301 https://${NGINX_SERVER_NAME}${DOLLAR}request_uri;
     }
 
     server {
