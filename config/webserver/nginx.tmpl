@@ -24,7 +24,7 @@ http {
         listen 80;
         server_name ${NGINX_SERVER_NAME};
 
-        return 301 https://${NGINX_SERVER_NAME}$request_uri;
+        return 301 https://${NGINX_SERVER_NAME}${DOLLAR}request_uri;
     }
 
     server {
@@ -48,10 +48,6 @@ http {
         location = /robots.txt { return 200 "User-agent: *\nAllow: /"; }
         location = /favicon.ico { access_log off; log_not_found off; return 404; }
         
-        #Prevent serving of sysfiles / vim backup files
-        location ~ /\.          { access_log off; log_not_found off; deny all; }
-        location ~ ~$           { access_log off; log_not_found off; deny all; }
-
         location / {
             uwsgi_pass      django;
             include         uwsgi_params;

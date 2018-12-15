@@ -7,40 +7,44 @@
 version: "3"
 
 volumes:
-    static-files:
-    
+  static-files:
+    driver: local
+  postgres:
+    driver: local
     
 services:
     db:
-        image: postgres:9.6
-        volumes:
-            - /opt/starter/psql:/var/lib/postgresql/data/pgdata
-        env_file:
-            - ./config/environment/development.env
+      image: postgres:11.1
+      volumes:
+        - postgres:/var/lib/postgresql/data/pgdata
+      env_file:
+        - ./config/environment/development.env
 
     webserver:
-        build:
-            context: .
-            dockerfile: services/webserver/Dockerfile
-        ports:
-            - "80:80"
-            - "443:443"
-        depends_on:
-            - webapp
-        volumes:
-            - static-files:/srv/static-files
-        env_file:
-            - ./config/environment/development.env
+      image: nginx:1.15
+      ports:
+        - "80:80"
+        - "443:443"
+      depends_on:
+        - webapp
+      volumes:
+        - ./config/webserver/nginx.tmpl:/etc/nginx/conf.d/nginx.tmpl
+        - ./config/webserver/localhost.crt:/etc/ssl/certs/localhost.crt
+        - ./config/webserver/localhost.key:/etc/ssl/private/localhost.key
+        - static-files:/srv/static-files
+      env_file:
+        - ./config/environment/development.env
+      command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.tmpl > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
 
     webapp:
-        build:
-            context: webapp
-        volumes:
-            - ./webapp/starter:/srv/starter
-            - static-files:/srv/static-files
-        expose:
-            - "8000"
-        depends_on:
-            - db
-        env_file:
-            - ./config/environment/development.env
+      build:
+        context: webapp
+      volumes:
+        - ./webapp/starter:/srv/starter
+        - static-files:/srv/static-files
+      expose:
+        - "8000"
+      depends_on:
+        - db
+      env_file:
+        - ./config/environment/development.env

@@ -1,18 +1,12 @@
 #!/bin/bash
+set -e
 
 #####
 # Postgres: wait until container is created
-# 
-# $?                most recent foreground pipeline exit status
-# > /dev/null 2>&1  get stderr while discarding stdout
 #####
-set -e
-python3 /srv/config/database-check.py > /dev/null 2>&1
-while [[ $? != 0 ]] ; do
+until python3 /srv/config/database-check.py; do
     sleep 5; echo "*** Waiting for postgres container ..."
-    python3 /srv/config/database-check.py > /dev/null 2>&1
 done
-set +e
 
 #####
 # Django setup

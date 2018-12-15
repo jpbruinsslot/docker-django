@@ -1,7 +1,5 @@
 Docker Django
--------------
-
-[![Circle CI](https://circleci.com/gh/erroneousboat/docker-django/tree/master.svg?style=shield)](https://circleci.com/gh/erroneousboat/docker-django/tree/master)
+=============
 
 ## tl;dr
 ```bash
@@ -13,20 +11,18 @@ Now you can access the application at <https://localhost> and the admin site
 at <https://localhost/admin>.
 
 A project to get you started with Docker and Django. This is made to
-serve as an example for you to hack on. I don't claim that this is the
-correct way to setup a system with Django and Docker, and if you have any
-suggestions, please fork the project, send a pull-request or create an issue.
-See the issues for the things I'm working on now.
+serve as an example for you to hack on, so I don't claim that this is the
+correct way to setup a system with Django and Docker. Thus, I advice to also
+look at other projects.
 
 Stack and version numbers used:
 
-| Name           | Version |
-|----------------|---------|
-| Docker         | 1.13.0  |
-| Docker Compose | 1.8.0   |
-| Nginx          | 1.11    |
-| Postgresql     | 9.6     |
-| uWSGI          | 2.0.15  |
+| Name           | Version  |
+|----------------|----------|
+| Django         | 2.1.4    |
+| Nginx          | 1.15     |
+| Postgresql     | 11.1     |
+| uWSGI          | 2.0.`17.1` |
 
 ## Folder structure
 
@@ -34,9 +30,7 @@ Stack and version numbers used:
 $ tree -L 1 --dirsfirst
 .
 ├── config              # files needed for configuration
-├── services            # services that support the webapp
 ├── webapp              # actual webapp
-├── circle.yml          # circle ci setup file
 ├── docker-compose.yml  # docker-compose setup with container orchestration instructions
 ├── LICENSE             # license for this project
 └── README.md           # this file
@@ -45,26 +39,10 @@ $ tree -L 1 --dirsfirst
 ## Setting up
 
 ### Docker
-See installation instructions at: [docker documentation](https://docs.docker.com)
-
-```bash
-$ curl -sSL https://get.docker.com/ubuntu/ | sudo sh
-```
-
+See installation instructions at: [docker documentation](https://docs.docker.com/install/)
 ### Docker Compose
 Install [docker compose](https://github.com/docker/compose), see installation
-instructions at [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/):
-
-```bash
-# Install with PyPi
-$ pip install docker-compose
-
-# or install via curl
-curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-Check the [github project](https://github.com/docker/docker-compose/releases) for new releases
+instructions at [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
 
 ### Django
 Create django project in the `webapp` folder or copy a project to the `webapp`
@@ -72,7 +50,7 @@ folder or use the sample project enclosed in this project and go directly to
 the section 'Fire it up':
 
 ```bash
-# be sure you have Django installed on your system
+# Be sure you have Django installed on your system
 $ django-admin startproject <name_project>
 ```
 
